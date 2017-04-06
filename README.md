@@ -5,18 +5,21 @@
 
 ## Functional Specification
 A web application to schedule meetings for groups.  
-The application will have the following "features":
+###### The application will have the following features:
 * Create and join groups.
 * Ability to schedule a meeting for a given group of people and to have that meeting show up in their schedule.  
 * A "meeting" will have a name, location, description etc.
 * Show free times in common to everyone in a given group.
 * Ability to mark a given time frame as "busy" without actually having a meeting at that time.
 
-## Technical Specification
-* Meteor back-end
-* React front-end
-* something something database (mongodb?)
-* Google OAuth for authentication
+###### Might do features:
+* Ability to import schedules from for example Google Calendar
+* Ability to export schedules
 
-Postman back-end testing  
-Do we even need external front-end testing tools when using React?
+## Technical Specification
+* [Meteor back-end](https://www.meteor.com/)
+* [React front-end](https://facebook.github.io/react/)
+* [mongoDB](https://www.mongodb.com/)
+* [Google Sign-In](https://developers.google.com/identity/) for authentication
+* [Big Calendar](https://github.com/intljusticemission/react-big-calendar) for displaying calendars and schedules
+* [Postman](https://www.getpostman.com/) for back-end testing  
