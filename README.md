@@ -17,9 +17,19 @@ A web application to schedule meetings for groups.
 * Ability to export schedules
 
 ## Technical Specification
-* [Meteor back-end](https://www.meteor.com/)
-* [React front-end](https://facebook.github.io/react/)
+* [Meteor](https://www.meteor.com/) for back-end
+* [React](https://facebook.github.io/react/) for front-end
 * [mongoDB](https://www.mongodb.com/)
 * [Google Sign-In](https://developers.google.com/identity/) for authentication
 * [Big Calendar](https://github.com/intljusticemission/react-big-calendar) for displaying calendars and schedules
 * [Postman](https://www.getpostman.com/) for back-end testing  
+
+
+## Installation
+```
+curl https://install.meteor.com/ | sh
+meteor npm install --save react react-dom
+meteor npm install --save react react-router
+meteor npm install --save react react-router-dom
+
+```

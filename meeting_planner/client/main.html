@@ -1,12 +1,31 @@
-<head>
-  <title>meeting_planner</title>
-</head>
 
+<head>
+  <title>Meeting Planner</title>
+
+  <meta name="google-signin-client_id" content="303238355416-evvupbj3fhekvsi1400ob29jfk93qgp9.apps.googleusercontent.com">
+
+</head>
 <body>
+
   <h1>Welcome to Meteor!</h1>
 
   {{> hello}}
-  {{> info}}
+
+
+  <div id=googleButton></div>
+
+  <div id="render-target"></div>
+
+  <script>
+  function onSignIn(googleUser) {
+
+    var profile = googleUser.getBasicProfile();
+    console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+    console.log('Name: ' + profile.getName());
+    console.log('Image URL: ' + profile.getImageUrl());
+    console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+  }
+  </script>
 </body>
 
 <template name="hello">
