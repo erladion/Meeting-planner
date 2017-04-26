@@ -59,8 +59,7 @@ const BasicExample = () => (
   <Router>
     <div>
 
-      <script src="https://apis.google.com/js/platform.js" async defer></script>
-      <div class="g-signin2" data-onsuccess={onSignIn}></div>
+      <SignIn />
       <ul>
         <li><Link to="/">Home</Link></li>
         <li><Link to="/about">About</Link></li>
@@ -76,30 +75,40 @@ const BasicExample = () => (
   </Router>
 )
 
-const onSignIn = (googleUser) => {
-
-  var profile = googleUser.getBasicProfile();
-  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-  console.log('Name: ' + profile.getName());
-  console.log('Image URL: ' + profile.getImageUrl());
-  console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+function onSignIn(googleUser) {
+    var profile = googleUser.getBasicProfile();
+    console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
 }
 
-const responseGoogle = (response) => {
-  console.log(response);
+class SignIn extends React.Component{
+
+    render() {
+        return (
+            <div id="my-signin2"/>
+        );
+    }
+
+    renderGoogleLoginButton() {
+    console.log('rendering google signin button')
+    gapi.signin2.render('my-signin2', {
+      'scope': 'https://www.googleapis.com/auth/plus.login',
+      'width': 500,
+      'height': 50,
+      'longtitle': true,
+      'theme': 'dark',
+      'onsuccess': onSignIn
+    });
+  }
+
+  componentDidMount() {
+    window.addEventListener('google-loaded',this.renderGoogleLoginButton);
+  }
+
+
 }
 
 Meteor.startup(() => {
 
   render(<BasicExample />, document.getElementById('render-target'));
-  //render(<googleSignIn />, document.getElementById('signin'));
-  render(
-    <GoogleLogin
-      clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
-      onSuccess={responseGoogle}
-      onFailure={responseGoogle}
-    />,
-    document.getElementById('googleButton')
-  );
 
 });
