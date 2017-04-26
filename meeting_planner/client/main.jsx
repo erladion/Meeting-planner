@@ -60,6 +60,7 @@ const BasicExample = () => (
     <div>
 
       <SignIn />
+      <Signout />
       <ul>
         <li><Link to="/">Home</Link></li>
         <li><Link to="/about">About</Link></li>
@@ -92,7 +93,7 @@ class SignIn extends React.Component{
     console.log('rendering google signin button')
     gapi.signin2.render('my-signin2', {
       'scope': 'https://www.googleapis.com/auth/plus.login',
-      'width': 500,
+      'width': 200,
       'height': 50,
       'longtitle': true,
       'theme': 'dark',
@@ -105,6 +106,23 @@ class SignIn extends React.Component{
   }
 
 
+}
+
+class Signout extends React.Component {
+
+    render(){
+        return (
+            <button onClick={this.signOut}>Log out</button>
+        )
+    }
+
+    signOut() {
+        console.log("user signing out")
+        var auth2 = gapi.auth2.getAuthInstance();
+        auth2.signOut().then(function () {
+            console.log('User signed out.');
+        });
+    }
 }
 
 Meteor.startup(() => {
