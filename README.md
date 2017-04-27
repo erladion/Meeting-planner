@@ -31,5 +31,6 @@ curl https://install.meteor.com/ | sh
 meteor npm install --save react react-dom
 meteor npm install --save react react-router
 meteor npm install --save react react-router-dom
+meteor add aldeed:simple-schema
 
 ```
