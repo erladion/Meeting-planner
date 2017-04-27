@@ -1,4 +1,5 @@
 import { Mongo } from 'meteor/mongo';
+import SimpleSchema from 'simpl-schema'
 
 export const Groups = new Mongo.Collection('groups');
 export const Events = new Mongo.Collection('events');
@@ -6,8 +7,8 @@ export const Events = new Mongo.Collection('events');
 Groups.schema = new SimpleSchema({
     name: {type: String},
     creator: {type: String},
-    members: {type: [String]},
-    events: {type: [Strings]},
+    members: [String],
+    events: [String],
     description: {type: String, optional: true},
 });
 
@@ -28,7 +29,7 @@ Meteor.methods({
         var obj = {
             name: name,
             creator: creator,
-            description: description;
+            description: description
         };
 
         Groups.schema.validate(obj);
