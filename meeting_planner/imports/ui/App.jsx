@@ -1,9 +1,10 @@
 import React from 'react';
-import { Navigation } from '../ui/components/navigation';
 
 export const App = ( { children } ) => (
   <div>
-    <Navigation />
+      <div className="w3-container w3-blue">
+          <h1>Meeting Planner</h1>
+      </div>
     { children }
   </div>
 )
