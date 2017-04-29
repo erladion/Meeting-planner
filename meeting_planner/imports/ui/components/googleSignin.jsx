@@ -4,9 +4,18 @@ import { render } from 'react-dom';
 import { Router, browserHistory } from 'react-router'
 import GoogleLogin from 'react-google-login';
 
+function getIDToken(id_token){
+
+    Meteor.call("addUser", id_token)
+}
+
+
 function onSignIn(googleUser) {
     var profile = googleUser.getBasicProfile();
     console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+
+    var id_token = googleUser.getAuthResponse().id_token;
+    getIDToken(id_token);
     browserHistory.push('/two');
 }
 

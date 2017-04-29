@@ -37,7 +37,6 @@ Meteor.methods({
         Groups.Insert(obj);
     },
     'groups.addMember'(groupID,creator, member){
-
         Groups.update(
             {_id: groupID, creator: creator},
             {
@@ -82,8 +81,8 @@ Meteor.methods({
         }
     },
     'groups.changeEvent'(groupID, eventID, eventObj){
-        var eventToBeRemoved = Events.find({_id: eventID}).next();
-        var eventCreator = eventToBeRemoved.creator;
+        var eventToBeChanged = Events.find({_id: eventID}).next();
+        var eventCreator = eventToBeChanged.creator;
 
         var group = Groups.find({_id:groupID}).next();
         var groupCreator = group.creator;
