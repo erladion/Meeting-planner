@@ -4,29 +4,27 @@ import SimpleSchema from 'simpl-schema'
 export const Users = new Mongo.Collection('users');
 
 Users.schema = new SimpleSchema({
-    email: {type: String},
-    userID: {type: String},
+    email: {type: String, unique: true},
+    userID: {type: String, unique: true},
     username: {type: String, optional: true},
+    groups: [String],
 });
 
 Meteor.methods({
     'users.add'(email, userID, username){
-        console.log("adding");
-        // TODO
-        // Check here in the user database if the creator email exists
-        // Might also want some kind of security to validate that the user sending the email is the actual user
         var obj = {
             email: email,
             userID: userID,
             username: username,
         };
 
-        console.log(obj);
-
-        Users.schema.validate(obj);
-        console.log("validated");
-        Users.insert(obj);
-        console.log("added");
+        var user = users.find({userID:userID});
+        // Check if there already exists a user in the database with given userID
+        // If there doesn't we add a new user, else do nothing
+        if(!user.hasNext()){
+            Users.schema.validate(obj);
+            Users.insert(obj);
+        }
     },
     'users.remove'(email, userID){
         var user = Users.find({email:email}).next();
@@ -43,5 +41,13 @@ Meteor.methods({
         };
 
         var userToUpdate = Users.Update({userID:userID}, userObj);
+    },
+    'users.addGroup'(groupID,userID){
+        users.update(
+            {userID: userID},
+            {
+                $push: {groups: groupID}
+            }
+        );
     },
 });
