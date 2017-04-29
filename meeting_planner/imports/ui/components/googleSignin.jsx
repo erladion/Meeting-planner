@@ -17,7 +17,7 @@ function onSignIn(googleUser) {
     var id_token = googleUser.getAuthResponse().id_token;
     getIDToken(id_token);
 
-    browserHistory.push('/two');
+    browserHistory.push('/about');
 }
 
 export class SignIn extends React.Component{
@@ -69,7 +69,7 @@ export var loginRedirect = function(){
     load_gapi(function(){
         var auth = gapi.auth2.getAuthInstance();
         if (auth.isSignedIn.get()){
-            browserHistory.push('/two');
+            browserHistory.push('/about');
         }
     });
 };

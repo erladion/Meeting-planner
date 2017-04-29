@@ -23,8 +23,7 @@ Meteor.startup(() => {
             <Router history={ browserHistory }>
                 <Route path="/" component={ WelcomePage } onEnter={loginRedirect}/>
                 <Route path="/" component={ TabView }>
-                    <Route path="/one" component={ Signout } onEnter={authenticate} />
-                    <Route path="/two" component={ About } onEnter={authenticate} />
+                    <Route path="/about" component={ About } onEnter={authenticate} />
                 </Route>
                 <Route path="/*" component={ NotFound } />
             </Router>

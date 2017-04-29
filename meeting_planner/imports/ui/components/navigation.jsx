@@ -4,7 +4,7 @@ import { Signout } from './googleSignin'
 
 export const Navigation = () => (
     <div className="w3-bar w3-black">
-        <IndexLink to="/two" className="w3-bar-item w3-button">About</IndexLink>
+        <IndexLink to="/about" className="w3-bar-item w3-button">About</IndexLink>
         <Signout/>
      </div>
 )

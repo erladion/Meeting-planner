@@ -4,8 +4,8 @@ import SimpleSchema from 'simpl-schema'
 export const Users = new Mongo.Collection('users');
 
 Users.schema = new SimpleSchema({
-    email: {type: String, unique: true},
-    userID: {type: String, unique: true},
+    email: {type: String},
+    userID: {type: String},
     username: {type: String, optional: true},
     groups: [String],
 });
