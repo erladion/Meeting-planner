@@ -33,7 +33,7 @@ Meteor.methods({
         var userid = user.userID;
 
         if(userid == userID){
-            Users.Remove({userID:userID});
+            Users.remove({userID:userID});
         }
 
     },

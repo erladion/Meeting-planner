@@ -34,7 +34,7 @@ Meteor.methods({
 
         Groups.schema.validate(obj);
 
-        Groups.Insert(obj);
+        Groups.insert(obj);
     },
     'groups.addMember'(groupID,creator, member){
         Groups.update(
