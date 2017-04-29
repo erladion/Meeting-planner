@@ -107,7 +107,7 @@ Meteor.methods({
             );
         }
     },
-    'groups.changeDescription'(groupID, description){
+    'groups.changeDescription'(groupID, creator, description){
         var group = Groups.find({_id:groupID}).next();
         var groupCreator = group.creator;
 
