@@ -32,20 +32,15 @@ export class SignIn extends React.Component{
         );
     }
 
-    renderGoogleLoginButton() {
-    console.log('rendering google signin button')
-    gapi.signin2.render('my-signin2', {
-      'scope': 'https://www.googleapis.com/auth/plus.login',
-      'width': 200,
-      'height': 50,
-      'longtitle': true,
-      'theme': 'dark',
-      'onsuccess': onSignIn
-    });
-  }
-
   componentDidMount() {
-    window.addEventListener('google-loaded',this.renderGoogleLoginButton);
+     gapi.signin2.render('my-signin2', {
+    'scope': 'https://www.googleapis.com/auth/plus.login',
+    'width': 200,
+    'height': 50,
+    'longtitle': true,
+    'theme': 'dark',
+    'onsuccess': onSignIn
+  });
   }
 
 
@@ -55,7 +50,7 @@ export class Signout extends React.Component {
 
     render(){
         return (
-            <button onClick={this.signOut}>Log out</button>
+            <button onClick={this.signOut} className="w3-bar-item w3-button">Log out</button>
         )
     }
 
