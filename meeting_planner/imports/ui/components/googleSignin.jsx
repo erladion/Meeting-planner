@@ -16,6 +16,7 @@ function onSignIn(googleUser) {
 
     var id_token = googleUser.getAuthResponse().id_token;
     getIDToken(id_token);
+
     browserHistory.push('/two');
 }
 
@@ -23,7 +24,6 @@ export class SignIn extends React.Component{
 
     constructor(props){
         super(props);
-
     }
 
     render() {
