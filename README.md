@@ -23,6 +23,7 @@ A web application to schedule meetings for groups.
 * [Google Sign-In](https://developers.google.com/identity/) for authentication
 * [Big Calendar](https://github.com/intljusticemission/react-big-calendar) for displaying calendars and schedules
 * [Postman](https://www.getpostman.com/) for back-end testing  
+* [W3.CSS](https://www.w3schools.com/w3css/default.asp) for CSS classes
 
 
 ## Installation
