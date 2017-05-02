@@ -17,11 +17,13 @@ Meteor.methods({
             userID: userID,
             username: username,
         };
-
-        var user = users.find({userID:userID});
+        console.log("in users.add");
+        var user = users.find({userID:userID}).limit(1);
+        console.log("user to add " + user);
         // Check if there already exists a user in the database with given userID
         // If there doesn't we add a new user, else do nothing
         if(!user.hasNext()){
+            console.log("user does not exist already");
             Users.schema.validate(obj);
             Users.insert(obj);
         }
@@ -35,12 +37,15 @@ Meteor.methods({
         }
 
     },
-    'users.changeUserName'(username, userID){
+    'users.changeUsername'(username, userID){
         var userObj = {
             username: username,
         };
 
+        console.log(username);
+
         var userToUpdate = Users.Update({userID:userID}, userObj);
+        console.log("successfully updated username");
     },
     'users.addGroup'(groupID,userID){
         users.update(
