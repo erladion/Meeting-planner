@@ -9,7 +9,7 @@ export class Navigation extends React.Component{
             <div className="w3-bar w3-black">
                 <button className="w3-bar-item w3-button" onClick={(evt) => this.highlightSelectedTab(evt, "/profile")}>Profile</button>
                 <button className="w3-bar-item w3-button" onClick={(evt) => this.highlightSelectedTab(evt, "/about")}>About</button>
-                <SignoutButton className="tablink"/>
+                <SignoutButton />
              </div>
         )
     }

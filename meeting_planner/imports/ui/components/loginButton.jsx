@@ -29,7 +29,7 @@ export class SignoutButton extends React.Component {
 
     render(){
         return (
-            <button onClick={this.logout} className="w3-bar-item w3-button">Log out</button>
+            <button onClick={this.logout} className="w3-bar-item w3-button  w3-right">Log out</button>
         )
     }
 

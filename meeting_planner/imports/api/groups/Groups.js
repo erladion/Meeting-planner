@@ -22,10 +22,13 @@ Events.schema = new SimpleSchema({
 });
 
 Meteor.methods({
-    'groups.insert'(name, creator, description){
+    'groups.insert'(name, description){
         // TODO
         // Check here in the user database if the creator email exists
         // Might also want some kind of security to validate that the user sending the email is the actual user
+
+        var creator = Meteor.user().services.google.email;
+
         var obj = {
             name: name,
             creator: creator,
@@ -36,7 +39,8 @@ Meteor.methods({
 
         Groups.insert(obj);
     },
-    'groups.addMember'(groupID,creator, member){
+    'groups.addMember'(groupID, member){
+        var creator = Meteor.user().services.google.email;
         Groups.update(
             {_id: groupID, creator: creator},
             {
@@ -44,7 +48,8 @@ Meteor.methods({
             }
         );
     },
-    'groups.removeMember'(groupID, creator, member){
+    'groups.removeMember'(groupID, member){
+        var creator = Meteor.user().services.google.email;
         Groups.update(
             {_id: groupID, creator: creator},
             {
@@ -63,7 +68,8 @@ Meteor.methods({
             }
         );
     },
-    'groups.removeEvent'(groupID,remover, eventID){
+    'groups.removeEvent'(groupID, eventID){
+        var remover = Meteor.user().services.google.email;
         var eventToBeRemoved = Events.find({_id: eventID}).next();
         var eventCreator = eventToBeRemoved.creator;
 
@@ -94,7 +100,8 @@ Meteor.methods({
             );
         }
     },
-    'groups.changeName'(groupID, creator, name){
+    'groups.changeName'(groupID, name){
+        var creator = Meteor.user().services.google.email;
         var group = Groups.find({_id:groupID}).next();
         var groupCreator = group.creator;
 
@@ -107,7 +114,8 @@ Meteor.methods({
             );
         }
     },
-    'groups.changeDescription'(groupID, creator, description){
+    'groups.changeDescription'(groupID, description){
+        var creator = Meteor.user().services.google.email;
         var group = Groups.find({_id:groupID}).next();
         var groupCreator = group.creator;
 
@@ -120,7 +128,8 @@ Meteor.methods({
             );
         }
     },
-    'groups.removeGroup'(groupID, creator){
+    'groups.removeGroup'(groupID){
+        var creator = Meteor.user().services.google.email;
         var group = Groups.find({_id:groupID}).next();
         var groupCreator = group.creator;
 
