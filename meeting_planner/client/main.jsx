@@ -17,6 +17,7 @@ const About = () => (
 )
 
 Meteor.startup(() => {
+    authenticate = authenticate.bind(this);
     render(
         <App>
             <Router history={ browserHistory }>

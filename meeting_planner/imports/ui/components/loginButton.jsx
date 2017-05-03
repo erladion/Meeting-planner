@@ -45,6 +45,11 @@ export function authenticate(){
     if (Meteor.userId() == null){
         browserHistory.push('/');
     }
+    else{
+        // To make sure we rerender after being logged in
+        console.log(this);
+        //this.setState(this.state);
+    }
 }
 
 export function loginRedirect(){

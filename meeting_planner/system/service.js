@@ -1,4 +1,4 @@
-ServiceConfiguration.configurations.update({service: 'google'},
+/*ServiceConfiguration.configurations.update({service: 'google'},
     {
     $set:{
           service: 'google',
@@ -11,3 +11,4 @@ ServiceConfiguration.configurations.update({service: 'google'},
         upsert: true
     }
 );
+*/
