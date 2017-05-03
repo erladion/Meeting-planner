@@ -1,7 +1,7 @@
 import { Mongo } from 'meteor/mongo';
 import SimpleSchema from 'simpl-schema'
 
-export const Users = new Mongo.Collection('users');
+export const Users = Meteor.users;
 
 Users.schema = new SimpleSchema({
     email: {type: String},
@@ -11,7 +11,7 @@ Users.schema = new SimpleSchema({
 });
 
 Meteor.methods({
-    'users.add'(email, userID, username){
+    'users.add'(){
         var obj = {
             email: email,
             userID: userID,
@@ -28,28 +28,22 @@ Meteor.methods({
             Users.insert(obj);
         }
     },
-    'users.remove'(email, userID){
-        var user = Users.find({email:email}).next();
-        var userid = user.userID;
-
-        if(userid == userID){
-            Users.remove({userID:userID});
-        }
-
+    'users.remove'(){
+        Users.remove({_id:Meteor.userId()});
     },
-    'users.changeUsername'(username, userID){
+    'users.changeUsername'(username){
         var userObj = {
             username: username,
         };
 
         console.log(username);
 
-        var userToUpdate = Users.Update({userID:userID}, userObj);
+        var userToUpdate = Users.update({_id:Meteor.userId()}, {$set: userObj});
         console.log("successfully updated username");
     },
-    'users.addGroup'(groupID,userID){
+    'users.addGroup'(groupID){
         users.update(
-            {userID: userID},
+            {_id: Meteor.userId()},
             {
                 $push: {groups: groupID}
             }

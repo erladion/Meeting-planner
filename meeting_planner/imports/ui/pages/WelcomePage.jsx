@@ -1,6 +1,5 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { SignIn } from '../components/googleSignin'
 import { LoginButton } from '../components/loginButton';
 
 export class WelcomePage extends React.Component{

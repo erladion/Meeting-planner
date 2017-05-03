@@ -2,6 +2,7 @@ import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import { render } from 'react-dom';
 import { browserHistory } from 'react-router'
+
 export class LoginButton extends React.Component{
 
     render(){
@@ -20,5 +21,34 @@ export class LoginButton extends React.Component{
                 browserHistory.push('/profile');
             }
         });
+    }
+}
+
+
+export class SignoutButton extends React.Component {
+
+    render(){
+        return (
+            <button onClick={this.logout} className="w3-bar-item w3-button">Log out</button>
+        )
+    }
+
+    logout() {
+        Meteor.logout(function(){
+            browserHistory.push('/');
+        });
+    }
+}
+
+export function authenticate(){
+    console.log("authenticate " + Meteor.userId())
+    if (Meteor.userId() == null){
+        browserHistory.push('/');
+    }
+}
+
+export function loginRedirect(){
+    if (Meteor.userId()){
+        browserHistory.push('/profile');
     }
 }

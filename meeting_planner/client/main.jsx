@@ -2,7 +2,7 @@ import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import { render } from 'react-dom';
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
-import { SignIn, Signout, loginRedirect, authenticate } from '../imports/ui/components/googleSignin'
+import { loginRedirect, authenticate } from '../imports/ui/components/loginButton'
 import { WelcomePage } from '../imports/ui/pages/WelcomePage'
 import { App } from '../imports/ui/App'
 import { TabView } from '../imports/ui/pages/TabView'
@@ -23,7 +23,7 @@ Meteor.startup(() => {
                 <Route path="/" component={ WelcomePage } onEnter={loginRedirect}/>
                 <Route path="/" component={ TabView }>
                     <Route path="/about" component={ About } onEnter={authenticate} />
-                    <Route path="/profile" component={Profile}/>
+                    <Route path="/profile" component={Profile} onEnter={authenticate} />
                 </Route>
                 <Route path="/*" component={ NotFound } />
             </Router>
