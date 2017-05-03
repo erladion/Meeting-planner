@@ -23,21 +23,26 @@ Events.schema = new SimpleSchema({
 
 Meteor.methods({
     'groups.insert'(name, description){
-        // TODO
-        // Check here in the user database if the creator email exists
-        // Might also want some kind of security to validate that the user sending the email is the actual user
-
         var creator = Meteor.user().services.google.email;
 
         var obj = {
             name: name,
             creator: creator,
-            description: description
+            description: description,
+            members:[creator],
+            events:[]
         };
 
+        console.log("validating");
         Groups.schema.validate(obj);
 
-        Groups.insert(obj);
+        console.log("inserting");
+        var id = Groups.insert(obj);
+        console.log(id);
+        Meteor.users.update({_id:Meteor.userId()}, {
+            $push: {groups: id}
+        });
+        console.log("done inserting")
     },
     'groups.addMember'(groupID, member){
         var creator = Meteor.user().services.google.email;

@@ -9,6 +9,7 @@ import { TabView } from '../imports/ui/pages/TabView'
 import { NotFound } from "../imports/ui/pages/NotFound"
 import {Groups} from '../imports/api/groups/Groups'
 import {Profile} from '../imports/ui/components/profile'
+import { Group } from '../imports/ui/components/group'
 
 const About = () => (
   <div>
@@ -19,7 +20,6 @@ const About = () => (
 Meteor.startup(() => {
     Meteor.subscribe('groups');
     Meteor.subscribe('users');
-    authenticate = authenticate.bind(this);
     render(
         <App>
             <Router history={ browserHistory }>
@@ -27,6 +27,7 @@ Meteor.startup(() => {
                 <Route path="/" component={ TabView }>
                     <Route path="/about" component={ About } onEnter={authenticate} />
                     <Route path="/profile" component={Profile} onEnter={authenticate} />
+                    <Route path="/groups/:name" component={ Group } onEnter={authenticate} />
                 </Route>
                 <Route path="/*" component={ NotFound } />
             </Router>

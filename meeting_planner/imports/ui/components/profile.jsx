@@ -7,6 +7,8 @@ export class Profile extends React.Component{
         super(props);
         this.saveUsername = this.saveUsername.bind(this);
         this.changeUsername = this.changeUsername.bind(this);
+        this.saveGroupname = this.saveGroupname.bind(this);
+        this.addGroup = this.addGroup.bind(this);
         this.state = {username: '', newGroupName: ''};
     }
 
