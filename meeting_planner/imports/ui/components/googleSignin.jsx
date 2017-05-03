@@ -56,9 +56,7 @@ export class Signout extends React.Component {
 
     signOut() {
         console.log("user signing out")
-        var auth2 = gapi.auth2.getAuthInstance();
-        auth2.signOut().then(function () {
-            console.log('User signed out.');
+        Meteor.logout(function(){
             browserHistory.push('/');
         });
     }
@@ -66,12 +64,9 @@ export class Signout extends React.Component {
 
 
 export var loginRedirect = function(){
-    load_gapi(function(){
-        var auth = gapi.auth2.getAuthInstance();
-        if (auth.isSignedIn.get()){
-            browserHistory.push('/about');
+        if (Meteor.userId()){
+            browserHistory.push('/profile');
         }
-    });
 };
 
 var load_gapi = function(doNext){
@@ -89,10 +84,7 @@ var load_gapi = function(doNext){
 };
 
 export var authenticate = function(){
-    load_gapi(function(){
-        var auth = gapi.auth2.getAuthInstance();
-        if (!auth.isSignedIn.get()){
+        if (!Meteor.userId()){
             browserHistory.push('/');
         }
-    })
 };

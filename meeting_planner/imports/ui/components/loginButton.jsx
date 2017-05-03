@@ -17,7 +17,7 @@ export class LoginButton extends React.Component{
             if (err) {
                 // handle error
             } else {
-                browserHistory.push('/about');
+                browserHistory.push('/profile');
             }
         });
     }
