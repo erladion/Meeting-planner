@@ -18,6 +18,7 @@ const About = () => (
 
 Meteor.startup(() => {
     Meteor.subscribe('groups');
+    Meteor.subscribe('users');
     authenticate = authenticate.bind(this);
     render(
         <App>
