@@ -14,7 +14,6 @@ export class Group extends React.Component{
     }
 
     render(){
-        console.dir(this.state);
         var group = this.state.groupInfo;
         var memberList = [];
         for (var i = 0; i < group.members.length; i++) {;

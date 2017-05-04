@@ -46,12 +46,18 @@ Meteor.methods({
     },
     'groups.addMember'(groupID, member){
         var creator = Meteor.user().services.google.email;
-        var user = Meteor.users.findOne({email: member});
+        var user = Meteor.users.findOne({'services.google.email': member});
         if(user){
             Groups.update(
                 {_id: groupID, creator: creator},
                 {
                     $push: {members: member}
+                }
+            );
+            Meteor.users.update(
+                {_id: user._id},
+                {
+                    $push: {groups: groupID}
                 }
             );
             return {successful: true, message: "Member was successfully added"};

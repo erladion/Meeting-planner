@@ -29,7 +29,7 @@ export class Navigation extends React.Component{
 
     componentDidMount(){
         Tracker.autorun(() => {
-            if (Meteor.user())
+            if (Groups.find({}).fetch())
             this.forceUpdate();
         });
     }
