@@ -47,7 +47,9 @@ Meteor.methods({
     'groups.addMember'(groupID, member){
         var creator = Meteor.user().services.google.email;
         var user = Meteor.users.findOne({'services.google.email': member});
-        if(user){
+        var userNotInGroup = Groups.findOne({_id:groupID}).members[member];
+
+        if(user && !userNotInGroup){
             Groups.update(
                 {_id: groupID, creator: creator},
                 {
