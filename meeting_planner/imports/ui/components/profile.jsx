@@ -14,7 +14,7 @@ export class Profile extends React.Component{
 
     render(){
         console.dir(Meteor.user());
-        var username = Meteor.user() ? (Meteor.user().username != "" ? Meteor.user().username : Meteor.user().services.google.email) : "";
+        var username = Meteor.user() ? (Meteor.user().username ? Meteor.user().username : Meteor.user().services.google.email) : "";
         var image = Meteor.user() ? Meteor.user().services.google.picture : "";
         return(
             <div style={{width:'50%'}} className="w3-border">
