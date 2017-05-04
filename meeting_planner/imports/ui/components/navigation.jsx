@@ -29,8 +29,9 @@ export class Navigation extends React.Component{
 
     componentDidMount(){
         Tracker.autorun(() => {
+            console.log("autorun runs");
             if (Groups.find({}).fetch())
-            this.forceUpdate();
+                this.forceUpdate();
         });
     }
 

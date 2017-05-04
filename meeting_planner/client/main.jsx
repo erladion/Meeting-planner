@@ -7,8 +7,8 @@ import { WelcomePage } from '../imports/ui/pages/WelcomePage'
 import { App } from '../imports/ui/App'
 import { TabView } from '../imports/ui/pages/TabView'
 import { NotFound } from "../imports/ui/pages/NotFound"
-import {Groups} from '../imports/api/groups/Groups'
-import {Profile} from '../imports/ui/components/profile'
+import { Groups } from '../imports/api/groups/Groups'
+import { Profile } from '../imports/ui/components/profile'
 import { Group } from '../imports/ui/components/group'
 
 const About = () => (

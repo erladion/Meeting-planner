@@ -48,7 +48,6 @@ export class Group extends React.Component{
 
     componentDidMount(){
         Tracker.autorun(() => {
-            console.log("autorun runs");
             // This is to make sure we rerun this code (and rerender the component) when we switch group tab
             if (Session.get('url')){
                 var group = Groups.findOne({_id:this.props.params.name});
