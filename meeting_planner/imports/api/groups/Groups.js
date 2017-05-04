@@ -46,21 +46,31 @@ Meteor.methods({
     },
     'groups.addMember'(groupID, member){
         var creator = Meteor.user().services.google.email;
-        Groups.update(
-            {_id: groupID, creator: creator},
-            {
-                $push: {members: member}
-            }
-        );
+        var user = Meteor.users.find({email: member});
+        if(user.hasNext()){
+            Groups.update(
+                {_id: groupID, creator: creator},
+                {
+                    $push: {members: member}
+                }
+            );
+            return {successful: true, message: "Member was successfully added"};
+        }
+        return {successful: false, message: "Member does not exist"};
     },
     'groups.removeMember'(groupID, member){
         var creator = Meteor.user().services.google.email;
-        Groups.update(
-            {_id: groupID, creator: creator},
-            {
-                $pull: {members: member}
-            }
-        );
+        var user = Meteor.users.find({email: member});
+        if(user.hasNext()){
+            Groups.update(
+                {_id: groupID, creator: creator},
+                {
+                    $pull: {members: member}
+                }
+            );
+            return {successful: true, message: "Member successfully removed"};
+        }
+        return {successful: false, message: "Member does not exist"};
     },
     'groups.addEvent'(groupID, eventObj){
         Events.Insert(eventObj);
@@ -89,7 +99,9 @@ Meteor.methods({
                 }
             );
             Events.remove({_id: eventID});
+            return {successful: true, message: "Event successfully removed"};
         }
+        return {successful: false, message: "You can't remove the group since you are not the creator of the group nor the event"};
     },
     'groups.changeEvent'(groupID, eventID, eventObj){
         var eventToBeChanged = Events.find({_id: eventID}).next();
@@ -103,7 +115,9 @@ Meteor.methods({
                 {_id:eventID},
                 eventObj
             );
+            return {successful: true, message: "Successfully updated the event"};
         }
+        return {successful: false, message: "Could not update the event"};
     },
     'groups.changeName'(groupID, name){
         var creator = Meteor.user().services.google.email;
@@ -117,7 +131,9 @@ Meteor.methods({
                     $set: {name: name}
                 }
             );
+            return {successful: true, message: "Successfully changed the group name"};
         }
+        return {successful: false, message: "Could not update the group name"};
     },
     'groups.changeDescription'(groupID, description){
         var creator = Meteor.user().services.google.email;
@@ -131,7 +147,9 @@ Meteor.methods({
                     $set: {description: description}
                 }
             );
+            return {successful: true, message: "Successfully updated the description"};
         }
+        return {successful: false, message: "Could not change the description"};
     },
     'groups.removeGroup'(groupID){
         var creator = Meteor.user().services.google.email;
@@ -140,6 +158,8 @@ Meteor.methods({
 
         if(creator == groupCreator){
             Groups.remove({_id: groupID});
+            return {successful: false, message: "Successfully removed the group"};
         }
+        return {successful: false, message: "Could not remove the group since you are not the creator of it"};
     },
 });
