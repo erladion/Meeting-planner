@@ -11,8 +11,8 @@ export class Navigation extends React.Component{
         if (Meteor.user()){
             var groups = Groups.find({}).fetch();
             for (index in groups){
-                var id = groups[index]._id;
-                var name = groups[index].name;
+                let id = groups[index]._id;
+                let name = groups[index].name;
                 let idString = '/groups/' + id;
                 groupTabs.push(<button className='w3-bar-item w3-button' onClick={(evt) => this.highlightSelectedTab(evt, idString)}>{name}</button>);
             }
@@ -40,6 +40,7 @@ export class Navigation extends React.Component{
         tablinks[i].className = tablinks[i].className.replace(" w3-red", "");
         }
         evt.currentTarget.className += " w3-red";
+        Session.set('url', url);
         browserHistory.push(url);
     }
 }
