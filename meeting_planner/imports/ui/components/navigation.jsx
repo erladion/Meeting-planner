@@ -13,7 +13,7 @@ export class Navigation extends React.Component{
             for (index in groups){
                 var id = groups[index]._id;
                 var name = groups[index].name;
-                var idString = '/groups/' + id;
+                let idString = '/groups/' + id;
                 groupTabs.push(<button className='w3-bar-item w3-button' onClick={(evt) => this.highlightSelectedTab(evt, idString)}>{name}</button>);
             }
         }

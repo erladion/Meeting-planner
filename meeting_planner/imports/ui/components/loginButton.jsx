@@ -41,14 +41,8 @@ export class SignoutButton extends React.Component {
 }
 
 export function authenticate(){
-    console.log("authenticate " + Meteor.userId())
     if (Meteor.userId() == null){
         browserHistory.push('/');
-    }
-    else{
-        // To make sure we rerender after being logged in
-        console.log(this);
-        //this.setState(this.state);
     }
 }
 
