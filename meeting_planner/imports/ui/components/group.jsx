@@ -10,18 +10,24 @@ export class Group extends React.Component{
         this.createEvent = this.createEvent.bind(this);
         this.saveMemberName = this.saveMemberName.bind(this);
         this.addMember = this.addMember.bind(this);
-        this.state = {groupInfo: {}, newMemberName: ''};
+        this.state = {groupInfo: {name:"",description:"", members:[]}, newMemberName: ''};
     }
 
     render(){
-        var groupInfo = Groups.findOne({_id:this.props.params.name});
-        if (!groupInfo) groupInfo = {name:"",description:""};
-        console.log(groupInfo);
+        console.dir(this.state);
+        var group = this.state.groupInfo;
+        var memberList = [];
+        for (var i = 0; i < group.members.length; i++) {;
+            let member = group.members[i];
+            memberList.push(<h6>{member}</h6>)
+        }
         return(
             <div style={{width:'50%'}} className="w3-border">
                 <div className="w3-panel w3-border-bottom">
-                    <h3 className="w3-margin">{groupInfo.name}</h3>
-                    <h4>{groupInfo.description}</h4>
+                    <h3 className="w3-margin">{group.name}</h3>
+                    <h4>{group.description}</h4>
+                    <h4>Members:</h4>
+                    {memberList}
                 </div>
                 <div className="w3-panel w3-border w3-leftbar w3-border-blue w3-margin-left">
                     <h4>Add member</h4>
@@ -42,10 +48,14 @@ export class Group extends React.Component{
     }
 
     componentDidMount(){
-        this.setState({groupInfo: Groups.findOne({_id:this.props.params.name})});
         Tracker.autorun(() => {
-            if (Meteor.user())
-            this.forceUpdate();
+            console.log("autorun runs");
+            // This is to make sure we rerun this code (and rerender the component) when we switch group tab
+            if (Session.get('url')){
+                var group = Groups.findOne({_id:this.props.params.name});
+                if (group)
+                    this.setState({groupInfo: group});
+            }
         });
     }
 
