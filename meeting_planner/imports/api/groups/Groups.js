@@ -46,8 +46,8 @@ Meteor.methods({
     },
     'groups.addMember'(groupID, member){
         var creator = Meteor.user().services.google.email;
-        var user = Meteor.users.find({email: member});
-        if(user.hasNext()){
+        var user = Meteor.users.findOne({email: member});
+        if(user){
             Groups.update(
                 {_id: groupID, creator: creator},
                 {
@@ -60,8 +60,8 @@ Meteor.methods({
     },
     'groups.removeMember'(groupID, member){
         var creator = Meteor.user().services.google.email;
-        var user = Meteor.users.find({email: member});
-        if(user.hasNext()){
+        var user = Meteor.users.findOne({email: member});
+        if(user){
             Groups.update(
                 {_id: groupID, creator: creator},
                 {
@@ -73,9 +73,7 @@ Meteor.methods({
         return {successful: false, message: "Member does not exist"};
     },
     'groups.addEvent'(groupID, eventObj){
-        Events.Insert(eventObj);
-        var eventObj = Events.find().sort({$natural:-1}).limit(1).next();
-        var eventObjID = eventObj._id;
+        var eventObjID = Events.Insert(eventObj);
         Groups.update(
             {_id: groupID},
             {
@@ -85,10 +83,10 @@ Meteor.methods({
     },
     'groups.removeEvent'(groupID, eventID){
         var remover = Meteor.user().services.google.email;
-        var eventToBeRemoved = Events.find({_id: eventID}).next();
+        var eventToBeRemoved = Events.findOne({_id: eventID});
         var eventCreator = eventToBeRemoved.creator;
 
-        var group = Groups.find({_id:groupID}).next();
+        var group = Groups.findOne({_id:groupID});
         var groupCreator = group.creator;
 
         if(remover == groupCreator || remover == eventCreator){
@@ -104,7 +102,7 @@ Meteor.methods({
         return {successful: false, message: "You can't remove the group since you are not the creator of the group nor the event"};
     },
     'groups.changeEvent'(groupID, eventID, eventObj){
-        var eventToBeChanged = Events.find({_id: eventID}).next();
+        var eventToBeChanged = Events.findOne({_id: eventID});
         var eventCreator = eventToBeChanged.creator;
 
         var group = Groups.find({_id:groupID}).next();
@@ -121,7 +119,7 @@ Meteor.methods({
     },
     'groups.changeName'(groupID, name){
         var creator = Meteor.user().services.google.email;
-        var group = Groups.find({_id:groupID}).next();
+        var group = Groups.findOne({_id:groupID});
         var groupCreator = group.creator;
 
         if(creator == groupCreator){
@@ -137,7 +135,7 @@ Meteor.methods({
     },
     'groups.changeDescription'(groupID, description){
         var creator = Meteor.user().services.google.email;
-        var group = Groups.find({_id:groupID}).next();
+        var group = Groups.findOne({_id:groupID});
         var groupCreator = group.creator;
 
         if(creator == groupCreator){
@@ -153,7 +151,7 @@ Meteor.methods({
     },
     'groups.removeGroup'(groupID){
         var creator = Meteor.user().services.google.email;
-        var group = Groups.find({_id:groupID}).next();
+        var group = Groups.findOne({_id:groupID});
         var groupCreator = group.creator;
 
         if(creator == groupCreator){
