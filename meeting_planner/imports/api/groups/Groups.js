@@ -47,9 +47,12 @@ Meteor.methods({
     'groups.addMember'(groupID, member){
         var creator = Meteor.user().services.google.email;
         var user = Meteor.users.findOne({'services.google.email': member});
-        var userNotInGroup = Groups.findOne({_id:groupID}).members[member];
+        // Don't mind this magic happening here. just javascript things
+        // indexOf() returns -1 if it does not exist, ~ makes it so that -1
+        // becomes 0 and everything else becomes something that isn't 0
+        var userInGroup = ~Groups.findOne({_id:groupID}).members.indexOf(member);
 
-        if(user && !userNotInGroup){
+        if(user && !userInGroup){
             Groups.update(
                 {_id: groupID, creator: creator},
                 {
