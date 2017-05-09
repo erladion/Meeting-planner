@@ -10,6 +10,7 @@ import { NotFound } from "../imports/ui/pages/NotFound"
 import { Groups } from '../imports/api/groups/Groups'
 import { Profile } from '../imports/ui/components/profile'
 import { Group } from '../imports/ui/components/group'
+import 'react-select/dist/react-select.css';
 
 const About = () => (
   <div>
