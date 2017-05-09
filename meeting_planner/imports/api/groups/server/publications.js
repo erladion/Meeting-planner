@@ -6,7 +6,7 @@ Meteor.publish('groups', function() {
         console.log("groups sent to client");
         var user = Meteor.users.findOne(this.userId, {fields: {groups: 1}});
         var groups = [];
-        if (user) {
+        if (user && user.groups) {
             groups = user.groups;
         }
         return Groups.find({_id: {$in: groups}});
@@ -15,7 +15,7 @@ Meteor.publish('groups', function() {
 
 Meteor.publish('users', function(){
     if(this.userId){
-        var users = Meteor.users.find({_id: this.userId}, { groups: 1, services: 1 });
+        var users = Meteor.users.find({_id: this.userId}, { groups: 1, email: 1, picture: 1 });
         return users;
     }
     else{

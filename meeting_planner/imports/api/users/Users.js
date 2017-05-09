@@ -29,8 +29,8 @@ Meteor.methods({
         }
     },
     'users.updateInfo'(){
-        var email = Meteor.users.services.google.email;
-        var picture = Meteor.users.services.google.picture;
+        var email = Meteor.user().services.google.email;
+        var picture = Meteor.user().services.google.picture;
         var userObj = {
             email: email,
             picture: picture

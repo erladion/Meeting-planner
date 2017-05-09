@@ -2,6 +2,7 @@ import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import { render } from 'react-dom';
 import { browserHistory } from 'react-router'
+import groupDB from '../../api/groups/Groups'
 
 export class LoginButton extends React.Component{
 
@@ -18,6 +19,7 @@ export class LoginButton extends React.Component{
             if (err) {
                 // handle error
             } else {
+                Meteor.call('users.updateInfo');
                 browserHistory.push('/profile');
             }
         });

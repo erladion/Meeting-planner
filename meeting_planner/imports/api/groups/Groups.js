@@ -69,6 +69,25 @@ Meteor.methods({
         }
         return {successful: false, message: "Member does not exist"};
     },
+    'groups.leaveGroup'(groupID){
+        var group = Groups.findOne({_id: groupID});
+        if(group){
+            if(group.members.length == 1){
+                groups.removeGroup(groupID);
+            }
+            else{
+                Meteor.call('groups.removeMember', groupID,Meteor.user.email);
+                // Probably should be called owner instead of creator, but oh well.
+                var newCreator = group.members[0];
+                Groups.update(
+                    {_id: groupID},
+                    {
+                        $set: {creator: newCreator}
+                    }
+                );
+            }
+        }
+    },
     'groups.removeMember'(groupID, member){
         var creator = Meteor.user().services.google.email;
         var user = Meteor.users.findOne({email: member});
