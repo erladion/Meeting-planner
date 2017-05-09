@@ -28,7 +28,7 @@ export class Group extends React.Component{
         var creatorStuff = (<p></p>);
         if (Meteor.user() && Meteor.user().services.google.email == group.creator){
             var memberDropDown = [];
-            for (var i = 0; i < group.members.length; i++) {
+            for (var i = 1; i < group.members.length; i++) {
                 memberDropDown.push({ value: group.members[i], label: group.members[i]});
             }
             creatorStuff = (
@@ -82,6 +82,8 @@ export class Group extends React.Component{
     }
 
     removeMember(){
+        if (this.state.removedMemberName == "")
+            return;
         Meteor.call("groups.removeMember", this.state.groupInfo._id, this.state.removedMemberName);
         this.setState({removedMemberName:""});
     }
