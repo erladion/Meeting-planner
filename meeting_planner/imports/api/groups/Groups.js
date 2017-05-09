@@ -73,7 +73,7 @@ Meteor.methods({
         var group = Groups.findOne({_id: groupID});
         if(group){
             if(group.members.length == 1){
-                groups.removeGroup(groupID);
+                Meteor.call('groups.removeGroup', groupID);
             }
             else{
                 Meteor.call('groups.removeMember', groupID,Meteor.user.email);
@@ -185,14 +185,14 @@ Meteor.methods({
         return {successful: false, message: "Could not change the description"};
     },
     'groups.removeGroup'(groupID){
-        var creator = Meteor.user().services.google.email;
+        var creator = Meteor.user().email;
         var group = Groups.findOne({_id:groupID});
         var membersInGroup = group.members;
         var groupCreator = group.creator;
 
         if(creator == groupCreator){
             Meteor.users.update(
-                {"services.google.email": {$in: membersInGroup}},
+                {"email": {$in: membersInGroup}},
                 {
                     $pull: {groups: groupID}
                 }
