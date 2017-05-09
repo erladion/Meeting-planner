@@ -28,7 +28,22 @@ Meteor.methods({
             Users.insert(obj);
         }
     },
+    'users.updateInfo'(){
+        var email = Meteor.users.services.google.email;
+        var picture = Meteor.users.services.google.picture;
+        var userObj = {
+            email: email,
+            picture: picture
+        };
+
+        Users.update({_id:Meteor.userId()}, {$set: userObj});
+    },
     'users.remove'(){
+        var groupsToUpdate = Meteor.user().groups;
+        Meteor.groups.update({_id: {$in: groupsToUpdate}},
+        {
+            $pull: {members: Meteor.userId()}
+        });
         Users.remove({_id:Meteor.userId()});
     },
     'users.changeUsername'(username){
@@ -40,13 +55,5 @@ Meteor.methods({
 
         var userToUpdate = Users.update({_id:Meteor.userId()}, {$set: userObj});
         console.log("successfully updated username");
-    },
-    'users.addGroup'(groupID){
-        users.update(
-            {_id: Meteor.userId()},
-            {
-                $push: {groups: groupID}
-            }
-        );
     },
 });

@@ -73,6 +73,11 @@ Meteor.methods({
         var creator = Meteor.user().services.google.email;
         var user = Meteor.users.findOne({email: member});
         if(user){
+            Meteor.users.update({_id: user._id},
+                {
+                    $pull: {groups: groupID}
+                }
+            );
             Groups.update(
                 {_id: groupID, creator: creator},
                 {
