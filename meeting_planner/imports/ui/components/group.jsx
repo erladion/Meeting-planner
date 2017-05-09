@@ -14,6 +14,7 @@ export class Group extends React.Component{
         this.removeGroup = this.removeGroup.bind(this);
         this.removeMember = this.removeMember.bind(this);
         this.changeMemberToRemove = this.changeMemberToRemove.bind(this);
+        this.leaveGroup = this.leaveGroup.bind(this);
         this.state = {groupInfo: {name:"",description:"", members:[], creator:""}, newMemberName: '', removedMemberName:''};
     }
 
@@ -57,6 +58,10 @@ export class Group extends React.Component{
                     <h4>{group.description}</h4>
                     <h4>Members:</h4>
                     {memberList}
+                    <div className="w3-panel w3-border w3-leftbar w3-border-blue w3-margin-left">
+                        <h4>Leave group</h4>
+                        <button className="w3-button w3-blue w3-margin-bottom" color=" #2196F3" width="200" height="30" onClick={this.leaveGroup}>Leave this group</button>
+                    </div>
                 </div>
                 { creatorStuff }
             </div>
@@ -79,6 +84,11 @@ export class Group extends React.Component{
     removeMember(){
         Meteor.call("groups.removeMember", this.state.groupInfo._id, this.state.removedMemberName);
         this.setState({removedMemberName:""});
+    }
+
+    leaveGroup(){
+        Meteor.call("groups.leaveGroup", this.state.groupInfo._id);
+        browserHistory.push("/profile");
     }
 
     addMember(){

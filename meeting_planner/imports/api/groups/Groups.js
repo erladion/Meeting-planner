@@ -71,12 +71,16 @@ Meteor.methods({
     },
     'groups.leaveGroup'(groupID){
         var group = Groups.findOne({_id: groupID});
+        console.log(group);
         if(group){
             if(group.members.length == 1){
+                console.log("alone");
                 Meteor.call('groups.removeGroup', groupID);
             }
             else{
-                Meteor.call('groups.removeMember', groupID,Meteor.user.email);
+                console.log("begin removed");
+                Meteor.call('groups.removeMember', groupID,Meteor.user().email);
+                    console.log("finish removed");
                 // Probably should be called owner instead of creator, but oh well.
                 var newCreator = group.members[0];
                 Groups.update(
@@ -89,7 +93,10 @@ Meteor.methods({
         }
     },
     'groups.removeMember'(groupID, member){
-        var creator = Meteor.user().services.google.email;
+        var creator = Groups.findOne({_id: groupID}).creator;
+        if (Meteor.user().email != creator && Meteor.user().email != member){
+            return {successful: false, message: "You do not have access to this"};
+        }
         var user = Meteor.users.findOne({email: member});
         if(user){
             Meteor.users.update({_id: user._id},
