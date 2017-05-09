@@ -163,10 +163,19 @@ Meteor.methods({
     'groups.removeGroup'(groupID){
         var creator = Meteor.user().services.google.email;
         var group = Groups.findOne({_id:groupID});
+        var membersInGroup = group.members;
         var groupCreator = group.creator;
 
         if(creator == groupCreator){
+            Meteor.users.update(
+                {"services.google.email": $in {membersInGroup}},
+                {
+                    $pull: {groups: groupID}
+                }
+            );
+
             Groups.remove({_id: groupID});
+
             return {successful: false, message: "Successfully removed the group"};
         }
         return {successful: false, message: "Could not remove the group since you are not the creator of it"};
