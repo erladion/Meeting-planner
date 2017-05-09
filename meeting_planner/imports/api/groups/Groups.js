@@ -168,7 +168,7 @@ Meteor.methods({
 
         if(creator == groupCreator){
             Meteor.users.update(
-                {"services.google.email": $in {membersInGroup}},
+                {"services.google.email": {$in: membersInGroup}},
                 {
                     $pull: {groups: groupID}
                 }
