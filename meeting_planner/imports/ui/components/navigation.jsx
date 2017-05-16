@@ -26,7 +26,7 @@ export class Navigation extends React.Component{
         var profileSelected = (browserHistory.getCurrentLocation().pathname == '/profile' ? ' w3-red' : '')
         return (
             <div className="w3-bar w3-black">
-                <button className={"w3-bar-item w3-button" + profileSelected} id='/profile' onClick={(evt) => this.changeTab(evt, "/profile")}>Profile</button>
+                <button className={"w3-bar-item w3-button" + profileSelected} onClick={(evt) => this.changeTab(evt, "/profile")}>Profile</button>
                 {groupTabs}
                 <SignoutButton />
              </div>
@@ -35,13 +35,14 @@ export class Navigation extends React.Component{
 
     componentDidMount(){
         Tracker.autorun(() => {
-            if (Groups.find({}).fetch() || Session.get('url')){
+            if (Groups.find({}).fetch() || browserHistory.getCurrentLocation().pathname){
                 this.forceUpdate();
             }
         });
     }
 
     changeTab(evt,url){
+        Session.set('url',url);
         browserHistory.push(url);
     }
 }
