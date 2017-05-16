@@ -6,6 +6,11 @@ import { Groups } from '../../api/groups/Groups'
 import { Group } from './group'
 
 export class Navigation extends React.Component{
+
+    constructor(props){
+        super(props);
+    }
+
     render(){
         var groupTabs = [];
         if (Meteor.user()){
@@ -14,13 +19,14 @@ export class Navigation extends React.Component{
                 let id = groups[index]._id;
                 let name = groups[index].name;
                 let idString = '/groups/' + id;
-                groupTabs.push(<button className='w3-bar-item w3-button' onClick={(evt) => this.highlightSelectedTab(evt, idString)}>{name}</button>);
+                let selectedClass = (browserHistory.getCurrentLocation().pathname == idString ? ' w3-red' : '')
+                groupTabs.push(<button className={'w3-bar-item w3-button' + selectedClass} onClick={(evt) => this.changeTab(evt, idString)}>{name}</button>);
             }
         }
+        var profileSelected = (browserHistory.getCurrentLocation().pathname == '/profile' ? ' w3-red' : '')
         return (
             <div className="w3-bar w3-black">
-                <button className="w3-bar-item w3-button" onClick={(evt) => this.highlightSelectedTab(evt, "/profile")}>Profile</button>
-                <button className="w3-bar-item w3-button" onClick={(evt) => this.highlightSelectedTab(evt, "/about")}>About</button>
+                <button className={"w3-bar-item w3-button" + profileSelected} id='/profile' onClick={(evt) => this.changeTab(evt, "/profile")}>Profile</button>
                 {groupTabs}
                 <SignoutButton />
              </div>
@@ -29,19 +35,13 @@ export class Navigation extends React.Component{
 
     componentDidMount(){
         Tracker.autorun(() => {
-            console.log("autorun runs");
-            if (Groups.find({}).fetch())
+            if (Groups.find({}).fetch() || Session.get('url')){
                 this.forceUpdate();
+            }
         });
     }
 
-    highlightSelectedTab(evt, url){
-        tablinks = evt.currentTarget.parentNode.childNodes;
-        for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace(" w3-red", "");
-        }
-        evt.currentTarget.className += " w3-red";
-        Session.set('url', url);
+    changeTab(evt,url){
         browserHistory.push(url);
     }
 }
