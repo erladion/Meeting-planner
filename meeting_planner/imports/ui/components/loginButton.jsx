@@ -20,7 +20,12 @@ export class LoginButton extends React.Component{
                 // handle error
             } else {
                 Meteor.call('users.updateInfo');
-                browserHistory.push('/profile');
+                if (Session.get('beforeLogin'))
+                    browserHistory.push(Session.get('beforeLogin'));
+                else{
+                    browserHistory.push('/profile');
+                }
+                Session.set('beforeLogin', "");
             }
         });
     }
@@ -45,6 +50,8 @@ export class SignoutButton extends React.Component {
 export function authenticate(){
     // If we are not logged in, go to login page instead
     if (Meteor.userId() == null){
+        // Remember where we were
+        Session.set('beforeLogin', browserHistory.getCurrentLocation().pathname);
         browserHistory.push('/');
     }
 }
