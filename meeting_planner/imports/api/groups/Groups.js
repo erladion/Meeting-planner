@@ -13,36 +13,39 @@ Groups.schema = new SimpleSchema({
 });
 
 Events.schema = new SimpleSchema({
-    name: {type: String},
+    title: {type: String},
     creator: {type: String},
     location: {type: String},
-    startTime: {type: Date},
-    endTime: {type: Date},
+    start: {type: Date},
+    end: {type: Date},
     description :{type: String, optional: true},
 });
 
 Meteor.methods({
     'groups.insert'(name, description){
         var creator = Meteor.user().services.google.email;
+        if(name){
+            var obj = {
+                name: name,
+                creator: creator,
+                description: description,
+                members:[creator],
+                events:[]
+            };
 
-        var obj = {
-            name: name,
-            creator: creator,
-            description: description,
-            members:[creator],
-            events:[]
-        };
+            console.log("validating");
+            Groups.schema.validate(obj);
 
-        console.log("validating");
-        Groups.schema.validate(obj);
-
-        console.log("inserting");
-        var id = Groups.insert(obj);
-        console.log(id);
-        Meteor.users.update({_id:Meteor.userId()}, {
-            $push: {groups: id}
-        });
-        console.log("done inserting")
+            console.log("inserting");
+            var id = Groups.insert(obj);
+            console.log(id);
+            Meteor.users.update({_id:Meteor.userId()}, {
+                $push: {groups: id}
+            });
+            console.log("done inserting")
+            return {successful: true, message: "Group was successfully created"};
+        }
+        return {successful: false, message: "Can not create a group with no name"};
     },
     'groups.addMember'(groupID, member){
         var creator = Meteor.user().services.google.email;
@@ -75,14 +78,21 @@ Meteor.methods({
         if(group){
             if(group.members.length == 1){
                 console.log("alone");
-                Meteor.call('groups.removeGroup', groupID);
+                //Meteor.call('groups.removeGroup', groupID);
+                removeGroup(groupID);
             }
             else{
                 console.log("begin removed");
-                Meteor.call('groups.removeMember', groupID,Meteor.user().email);
-                    console.log("finish removed");
+                removeMember(groupID, Meteor.user().email);
+                //Meteor.call('groups.removeMember', groupID,Meteor.user().email);
+                console.log("finish removed");
                 // Probably should be called owner instead of creator, but oh well.
+                // We have to get the group again to be able to update the creator,
+                // if we don't we are going to use the old members list and set the creator to the get who was creator but left
+                group = Groups.findOne({_id: groupID});
                 var newCreator = group.members[0];
+                console.log(newCreator);
+                console.log(group.members);
                 Groups.update(
                     {_id: groupID},
                     {
@@ -93,26 +103,14 @@ Meteor.methods({
         }
     },
     'groups.removeMember'(groupID, member){
-        var creator = Groups.findOne({_id: groupID}).creator;
-        if (Meteor.user().email != creator && Meteor.user().email != member){
-            return {successful: false, message: "You do not have access to this"};
-        }
-        var user = Meteor.users.findOne({email: member});
-        if(user){
-            Meteor.users.update({_id: user._id},
-                {
-                    $pull: {groups: groupID}
-                }
-            );
-            Groups.update(
-                {_id: groupID, creator: creator},
-                {
-                    $pull: {members: member}
-                }
-            );
+        var removedMember = removeMember(groupID, member);
+
+        if(removedMember){
             return {successful: true, message: "Member successfully removed"};
         }
-        return {successful: false, message: "Member does not exist"};
+        else{
+            return {successful: false, message: "Member does not exist"};
+        }
     },
     'groups.addEvent'(groupID, eventObj){
         var eventObjID = Events.insert(eventObj);
@@ -192,23 +190,54 @@ Meteor.methods({
         return {successful: false, message: "Could not change the description"};
     },
     'groups.removeGroup'(groupID){
-        var creator = Meteor.user().email;
-        var group = Groups.findOne({_id:groupID});
-        var membersInGroup = group.members;
-        var groupCreator = group.creator;
-
-        if(creator == groupCreator){
-            Meteor.users.update(
-                {"email": {$in: membersInGroup}},
-                {
-                    $pull: {groups: groupID}
-                }
-            );
-
-            Groups.remove({_id: groupID});
-
+        var removedGroup = removeGroup(groupID);
+        if(removedGroup){
+            return {successful: false, message: "Could not remove the group since you are not the creator of it"};
+        }
+        else{
             return {successful: false, message: "Successfully removed the group"};
         }
-        return {successful: false, message: "Could not remove the group since you are not the creator of it"};
     },
 });
+
+function removeGroup(groupID){
+    var creator = Meteor.user().email;
+    var group = Groups.findOne({_id:groupID});
+    var membersInGroup = group.members;
+    var groupCreator = group.creator;
+
+    if(creator == groupCreator){
+        Meteor.users.update(
+            {"email": {$in: membersInGroup}},
+            {
+                $pull: {groups: groupID}
+            }
+        );
+        Groups.remove({_id: groupID});
+        return false;
+    }
+    return true;
+}
+
+function removeMember(groupID, member){
+    var creator = Groups.findOne({_id: groupID}).creator;
+    if (Meteor.user().email != creator && Meteor.user().email != member){
+        return false;
+    }
+    var user = Meteor.users.findOne({email: member});
+    if(user){
+        Meteor.users.update({_id: user._id},
+            {
+                $pull: {groups: groupID}
+            }
+        );
+        Groups.update(
+            {_id: groupID, creator: creator},
+            {
+                $pull: {members: member}
+            }
+        );
+        return true;
+    }
+    return false;
+}

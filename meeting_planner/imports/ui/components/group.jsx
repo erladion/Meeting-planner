@@ -10,7 +10,6 @@ import BigCalendar from 'react-big-calendar'
 export class Group extends React.Component{
     constructor(props){
         super(props);
-        this.createEvent = this.createEvent.bind(this);
         this.saveMemberName = this.saveMemberName.bind(this);
         this.addMember = this.addMember.bind(this);
         this.removeGroup = this.removeGroup.bind(this);
