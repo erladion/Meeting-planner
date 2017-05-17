@@ -15,10 +15,12 @@ export class Navigation extends React.Component{
         var groupTabs = [];
         if (Meteor.user()){
             var groups = Groups.find({}).fetch();
+            // Create a tab for each group that leads to the correct url
             for (index in groups){
                 let id = groups[index]._id;
                 let name = groups[index].name;
                 let idString = '/groups/' + id;
+                // Make it red if this is where we currently are
                 let selectedClass = (browserHistory.getCurrentLocation().pathname == idString ? ' w3-red' : '')
                 groupTabs.push(<button className={'w3-bar-item w3-button' + selectedClass} onClick={(evt) => this.changeTab(evt, idString)}>{name}</button>);
             }
@@ -42,6 +44,7 @@ export class Navigation extends React.Component{
     }
 
     changeTab(evt,url){
+        // We set a session variable to make the group page rerender when we switch tab
         Session.set('url',url);
         browserHistory.push(url);
     }

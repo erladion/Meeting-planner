@@ -43,12 +43,14 @@ export class SignoutButton extends React.Component {
 }
 
 export function authenticate(){
+    // If we are not logged in, go to login page instead
     if (Meteor.userId() == null){
         browserHistory.push('/');
     }
 }
 
 export function loginRedirect(){
+    // If we entered the login page but were already logged in, go to profile page
     if (Meteor.userId()){
         browserHistory.push('/profile');
     }

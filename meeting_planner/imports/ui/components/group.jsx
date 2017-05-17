@@ -106,6 +106,7 @@ export class Group extends React.Component{
     componentDidMount(){
         Tracker.autorun(() => {
             // This is to make sure we rerun this code (and rerender the component) when we switch group tab
+            // For some reason browserhistory  won't make this rerun when we change group tab, so we need the session variable too
             if (browserHistory.getCurrentLocation().pathname || Session.get('url')){
                 var group = Groups.findOne({_id:this.props.params.name});
                 if (group)
