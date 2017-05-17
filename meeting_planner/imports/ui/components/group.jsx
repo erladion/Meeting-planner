@@ -30,7 +30,7 @@ export class Group extends React.Component{
         var creatorStuff = (<p></p>);
         if (Meteor.user() && Meteor.user().services.google.email == group.creator){
             var memberDropDown = [];
-            for (var i = 0; i < group.members.length; i++) {
+            for (var i = 1; i < group.members.length; i++) {
                 memberDropDown.push({ value: group.members[i], label: group.members[i]});
             }
             creatorStuff = (
@@ -85,6 +85,8 @@ export class Group extends React.Component{
     }
 
     removeMember(){
+        if (this.state.removedMemberName == "")
+            return;
         Meteor.call("groups.removeMember", this.state.groupInfo._id, this.state.removedMemberName);
         this.setState({removedMemberName:""});
     }
@@ -106,12 +108,11 @@ export class Group extends React.Component{
 
     componentDidMount(){
         Tracker.autorun(() => {
-            // This is to make sure we rerun this code (and rerender the component) when we switch group tab
-            if (Session.get('url')){
-                var group = Groups.findOne({_id:this.props.params.name});
-                if (group)
-                    this.setState({groupInfo: group});
-            }
+            // This console log is to make sure we rerun this code (and rerender the component) when we switch group tab
+            console.log(Session.get('url'));
+            var group = Groups.findOne({_id:this.props.params.name});
+            if (group)
+                this.setState({groupInfo: group});
         });
     }
 

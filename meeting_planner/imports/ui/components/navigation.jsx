@@ -6,21 +6,29 @@ import { Groups } from '../../api/groups/Groups'
 import { Group } from './group'
 
 export class Navigation extends React.Component{
+
+    constructor(props){
+        super(props);
+    }
+
     render(){
         var groupTabs = [];
         if (Meteor.user()){
             var groups = Groups.find({}).fetch();
+            // Create a tab for each group that leads to the correct url
             for (index in groups){
                 let id = groups[index]._id;
                 let name = groups[index].name;
                 let idString = '/groups/' + id;
-                groupTabs.push(<button className='w3-bar-item w3-button' onClick={(evt) => this.highlightSelectedTab(evt, idString)}>{name}</button>);
+                // Make it red if this is where we currently are
+                let selectedClass = (browserHistory.getCurrentLocation().pathname == idString ? ' w3-red' : '')
+                groupTabs.push(<button className={'w3-bar-item w3-button' + selectedClass} onClick={(evt) => this.changeTab(evt, idString)}>{name}</button>);
             }
         }
+        var profileSelected = (browserHistory.getCurrentLocation().pathname == '/profile' ? ' w3-red' : '')
         return (
             <div className="w3-bar w3-black">
-                <button className="w3-bar-item w3-button" onClick={(evt) => this.highlightSelectedTab(evt, "/profile")}>Profile</button>
-                <button className="w3-bar-item w3-button" onClick={(evt) => this.highlightSelectedTab(evt, "/about")}>About</button>
+                <button className={"w3-bar-item w3-button" + profileSelected} onClick={(evt) => this.changeTab(evt, "/profile")}>Profile</button>
                 {groupTabs}
                 <SignoutButton />
              </div>
@@ -29,19 +37,15 @@ export class Navigation extends React.Component{
 
     componentDidMount(){
         Tracker.autorun(() => {
-            console.log("autorun runs");
-            if (Groups.find({}).fetch())
+            if (Groups.find({}).fetch() || browserHistory.getCurrentLocation().pathname){
                 this.forceUpdate();
+            }
         });
     }
 
-    highlightSelectedTab(evt, url){
-        tablinks = evt.currentTarget.parentNode.childNodes;
-        for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace(" w3-red", "");
-        }
-        evt.currentTarget.className += " w3-red";
-        Session.set('url', url);
+    changeTab(evt,url){
+        // We set a session variable to make the group page rerender when we switch tab
+        Session.set('url',url);
         browserHistory.push(url);
     }
 }

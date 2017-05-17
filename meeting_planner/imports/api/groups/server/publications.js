@@ -4,6 +4,7 @@ import { Users } from '../../users/Users'
 Meteor.publish('groups', function() {
     this.autorun(function(computation){
         console.log("groups sent to client");
+        // Send only the groups that the user belongs to
         var user = Meteor.users.findOne(this.userId, {fields: {groups: 1}});
         var groups = [];
         if (user && user.groups) {
