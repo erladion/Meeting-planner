@@ -116,20 +116,6 @@ export class Group extends React.Component{
         });
     }
 
-    createEvent(name, location, startTime, endTime, description){
-        var groupId = this.state.groupInfo._id;
-        var creatorId = Meteor.user().email;
-        var eventObj = {
-            name: name,
-            creator: creatorId,
-            location: location,
-            startTime: startTime,
-            endTime: endTime,
-            description: description || "",
-        };
-        Meteor.call('groups.addEvent', groupId, eventObj);
-    }
-
     removeEvent(eventId){
         var groupId = this.state.groupInfo._id;
         Meteor.call('removeEvent', groupId, eventId);
