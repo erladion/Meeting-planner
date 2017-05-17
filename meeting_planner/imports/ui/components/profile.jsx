@@ -1,4 +1,4 @@
-    import React from 'react';
+import React from 'react';
 import GoogleLogin from 'react-google-login';
 import { Tracker } from 'meteor/tracker'
 

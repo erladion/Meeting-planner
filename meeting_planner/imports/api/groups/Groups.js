@@ -13,11 +13,11 @@ Groups.schema = new SimpleSchema({
 });
 
 Events.schema = new SimpleSchema({
-    name: {type: String},
+    title: {type: String},
     creator: {type: String},
     location: {type: String},
-    startTime: {type: Date},
-    endTime: {type: Date},
+    start: {type: Date},
+    end: {type: Date},
     description :{type: String, optional: true},
 });
 

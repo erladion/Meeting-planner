@@ -9,7 +9,7 @@ import { TabView } from '../imports/ui/pages/TabView'
 import { NotFound } from "../imports/ui/pages/NotFound"
 import { Groups } from '../imports/api/groups/Groups'
 import { Profile } from '../imports/ui/components/profile'
-import { Group } from '../imports/ui/components/group'
+import { Group, Events } from '../imports/ui/components/group'
 import 'react-select/dist/react-select.css';
 import 'react-big-calendar/lib/css/react-big-calendar';
 import BigCalendar from 'react-big-calendar';
@@ -26,6 +26,7 @@ const About = () => (
 Meteor.startup(() => {
     Meteor.subscribe('groups');
     Meteor.subscribe('users');
+    Meteor.subscribe('events');
     render(
         <App>
             <Router history={ browserHistory }>

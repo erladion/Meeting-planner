@@ -120,11 +120,11 @@ export class Group extends React.Component{
         var groupId = this.state.groupInfo._id;
         var creatorId = Meteor.user().email;
         var eventObj = {
-            name: name,
+            title: name,
             creator: creatorId,
             location: location,
-            startTime: startTime,
-            endTime: endTime,
+            start: startTime,
+            end: endTime,
             description: description || "",
         };
         Meteor.call('groups.addEvent', groupId, eventObj);
