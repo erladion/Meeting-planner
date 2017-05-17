@@ -4,6 +4,8 @@ import { render } from 'react-dom';
 import { browserHistory } from 'react-router'
 import Select from 'react-select'
 import { Groups } from '../../api/groups/Groups'
+import { Calendar } from './calendar'
+import BigCalendar from 'react-big-calendar'
 
 export class Group extends React.Component{
     constructor(props){
@@ -52,7 +54,7 @@ export class Group extends React.Component{
             );
         }
         return(
-            <div style={{width:'50%'}} className="w3-border">
+            <div style={{width:'100%'}} className="w3-border">
                 <div className="w3-panel">
                     <h3 className="w3-margin">{group.name}</h3>
                     <h4>{group.description}</h4>
@@ -63,6 +65,7 @@ export class Group extends React.Component{
                         <button className="w3-button w3-blue w3-margin-bottom" color=" #2196F3" width="200" height="30" onClick={this.leaveGroup}>Leave this group</button>
                     </div>
                 </div>
+                <Calendar name={group._id}/>
                 { creatorStuff }
             </div>
         )
@@ -115,7 +118,7 @@ export class Group extends React.Component{
     createEvent(name, location, startTime, endTime, description){
         var groupId = this.state.groupInfo._id;
         var creatorId = Meteor.user().email;
-        var eventOjb = {
+        var eventObj = {
             name: name,
             creator: creatorId,
             location: location,

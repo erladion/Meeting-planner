@@ -22,3 +22,9 @@ Meteor.publish('users', function(){
         this.ready();
     }
 });
+
+Meteor.publish('events', function(){
+
+
+
+});

@@ -28,9 +28,10 @@ A web application to schedule meetings for groups.
 ## Installation
 ```
 curl https://install.meteor.com/ | sh
-meteor npm install --save react react-dom react-router react-router-dom google-auth-library simpl-schema react-select
+meteor npm install --save react react-dom react-router react-router-dom google-auth-library simpl-schema react-select react-big-calendar
 meteor npm i --save react-router@3.0.2
 meteor add aldeed:simple-schema
 meteor add peerlibrary:reactive-publish
+meteor add momentjs:moment
 
 ```

@@ -115,7 +115,7 @@ Meteor.methods({
         return {successful: false, message: "Member does not exist"};
     },
     'groups.addEvent'(groupID, eventObj){
-        var eventObjID = Events.Insert(eventObj);
+        var eventObjID = Events.insert(eventObj);
         Groups.update(
             {_id: groupID},
             {

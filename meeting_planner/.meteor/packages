@@ -25,3 +25,4 @@ google-config-ui
 service-configuration
 session
 peerlibrary:reactive-publish
+momentjs:moment

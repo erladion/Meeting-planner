@@ -11,6 +11,11 @@ import { Groups } from '../imports/api/groups/Groups'
 import { Profile } from '../imports/ui/components/profile'
 import { Group } from '../imports/ui/components/group'
 import 'react-select/dist/react-select.css';
+import 'react-big-calendar/lib/css/react-big-calendar';
+import BigCalendar from 'react-big-calendar';
+import moment from 'moment';
+
+BigCalendar.momentLocalizer(moment);
 
 const About = () => (
   <div>
