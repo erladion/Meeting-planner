@@ -2,11 +2,24 @@ import React from 'react';
 import  SkyLight from 'react-skylight'
 import { DateField } from 'react-date-picker'
 import 'react-date-picker/index.css'
+import moment from 'moment'
 
 export class NewEventPopup extends React.Component{
     constructor(props){
         super(props);
-        this.state = {eventInfo: {}};
+        this.setName = this.setName.bind(this);
+        this.setDescription = this.setDescription.bind(this);
+        this.setLocation = this.setLocation.bind(this);
+        this.updateTime = this.updateTime.bind(this);
+        this.setSlotInfo = this.setSlotInfo.bind(this);
+        this.createEvent = this.createEvent.bind(this);
+        //console.dir(props);
+        this.state = {title:"", description:"", location: "", start:new Date(), end:new Date()};
+    }
+
+    setSlotInfo(slotInfo){
+        this.setState({start:slotInfo.start, end:slotInfo.end});
+        console.dir(this.state);
     }
 
     getTimeString(date){
@@ -15,30 +28,32 @@ export class NewEventPopup extends React.Component{
     }
 
     render(){
-        var info = this.props.slotInfo;
+        //state = {title:this.state.title, description:this.state.description, location: this.state.location, start:this.props.slotInfo.start, end:this.props.slotInfo.end};
+        //var info = this.props.slotInfo;
         var slotText = (<div/>);
         //console.dir(info);
-        if (info.start){
+        if (this.state.start){
             slotText = (
                 <div>
                     Start of event:<br/>
                     <DateField
-                        defaultValue={info.start.getTime()}
+                        defaultValue={this.state.start.getTime()}
                         dateFormat="YYYY-MM-DD"
                     />
-                    <input defaultValue={this.getTimeString(info.start)}/><br/>
+                    <input defaultValue={this.getTimeString(this.state.start)} onChange={(evt) => this.updateTime(evt,'start')}/><br/>
                     End of event: <br/>
                     <DateField
-                        defaultValue={info.end.getTime()}
+                        defaultValue={this.state.end.getTime()}
                         dateFormat="YYYY-MM-DD"
                     />
-                    <input defaultValue={this.getTimeString(info.end)}/><br/>
+                    <input defaultValue={this.getTimeString(this.state.end)} onChange={(evt) => this.updateTime(evt,'end')}/><br/>
                     Name:<br/>
-                    <input/><br/>
+                    <input type="text" value={this.state.title} onChange={this.setName}/><br/>
                     Location:<br/>
-                    <input/><br/>
+                    <input value={this.state.location} onChange={this.setLocation}/><br/>
                     Description:<br/>
-                    <input/><br/>
+                    <input value={this.state.description} onChange={this.setDescription}/><br/>
+                    <button onClick={this.createEvent}>Create Event</button>
                 </div>
             );
         }
@@ -49,8 +64,20 @@ export class NewEventPopup extends React.Component{
         );
     }
 
+    updateTime(evt,when){
+        if (evt.target.value.indexOf(':') == -1) return;
+        var timeString = evt.target.value.split(':');
+        var hours = parseInt(timeString[0]);
+        if (hours > 23) return;
+        var minutes = parseInt(timeString[1]);
+        if (minutes > 59) return;
+        this.state[when].setHours(hours,minutes);
+    }
+
     setName(evt){
+        //console.log(evt.target.value);
         this.setState({title:evt.target.value});
+        //console.log(this.state.title);
     }
 
     setLocation(evt){
@@ -62,8 +89,8 @@ export class NewEventPopup extends React.Component{
     }
 
 
-    createEvent(name, location, startTime, endTime, description){
-        var groupId = this.state.groupInfo._id;
+    createEvent(){
+        var groupId = this.props.group ;
         var creatorId = Meteor.user().email;
         var eventObj = {
             title: this.state.title,
@@ -74,5 +101,7 @@ export class NewEventPopup extends React.Component{
             description: this.state.description,
         };
         Meteor.call('groups.addEvent', groupId, eventObj);
+        this.refs.dialog.hide();
+        this.state = {title:"", description:"", location: "", start:new Date(), end:new Date()};
     }
 }
