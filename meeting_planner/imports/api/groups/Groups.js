@@ -141,16 +141,16 @@ Meteor.methods({
         }
         return {successful: false, message: "You can't remove the group since you are not the creator of the group nor the event"};
     },
-    'groups.changeEvent'(groupID, eventID, eventObj){
-        var eventToBeChanged = Events.findOne({_id: eventID});
+    'groups.changeEvent'(groupID, eventObj){
+        var eventToBeChanged = Events.findOne({_id: eventObj._id});
         var eventCreator = eventToBeChanged.creator;
 
-        var group = Groups.find({_id:groupID}).next();
+        var group = Groups.findOne({_id:groupID});
         var groupCreator = group.creator;
 
-        if(remover == groupCreator || remover == eventCreator){
+        if(Meteor.user().email == groupCreator || Meteor.user().email == eventCreator){
             Events.update(
-                {_id:eventID},
+                {_id:eventObj._id},
                 eventObj
             );
             return {successful: true, message: "Successfully updated the event"};

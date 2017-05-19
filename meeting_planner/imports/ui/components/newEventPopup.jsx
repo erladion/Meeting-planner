@@ -14,11 +14,16 @@ export class NewEventPopup extends React.Component{
         this.setSlotInfo = this.setSlotInfo.bind(this);
         this.createEvent = this.createEvent.bind(this);
         //console.dir(props);
-        this.state = {title:"", description:"", location: "", start:new Date(), end:new Date()};
+        this.state = {title:"", description:"", location: "", start:new Date(), end:new Date(), mode:""};
+    }
+
+    setEventInfo(eventInfo, mode){
+        this.setState(eventInfo);
+        this.setState({mode: mode});
     }
 
     setSlotInfo(slotInfo){
-        this.setState({start:slotInfo.start, end:slotInfo.end});
+        this.setState({start:slotInfo.start, end:slotInfo.end, mode:"create"});
         console.dir(this.state);
     }
 
@@ -30,36 +35,59 @@ export class NewEventPopup extends React.Component{
     render(){
         //state = {title:this.state.title, description:this.state.description, location: this.state.location, start:this.props.slotInfo.start, end:this.props.slotInfo.end};
         //var info = this.props.slotInfo;
-        var slotText = (<div/>);
+        var slotText = (<p/>);
+        var editText = (<p/>);
         //console.dir(info);
         if (this.state.start){
-            slotText = (
-                <div>
-                    Start of event:<br/>
-                    <DateField
-                        defaultValue={this.state.start.getTime()}
-                        dateFormat="YYYY-MM-DD"
-                    />
-                    <input defaultValue={this.getTimeString(this.state.start)} onChange={(evt) => this.updateTime(evt,'start')}/><br/>
-                    End of event: <br/>
-                    <DateField
-                        defaultValue={this.state.end.getTime()}
-                        dateFormat="YYYY-MM-DD"
-                    />
-                    <input defaultValue={this.getTimeString(this.state.end)} onChange={(evt) => this.updateTime(evt,'end')}/><br/>
-                    Name:<br/>
-                    <input type="text" value={this.state.title} onChange={this.setName}/><br/>
-                    Location:<br/>
-                    <input value={this.state.location} onChange={this.setLocation}/><br/>
-                    Description:<br/>
-                    <input value={this.state.description} onChange={this.setDescription}/><br/>
-                    <button onClick={this.createEvent}>Create Event</button>
-                </div>
-            );
+            if (this.state.mode != "create"){
+                slotText = (
+                    <div>
+                        <h3>{this.state.title}</h3>
+                        Start of event:<br/>
+                        {moment(this.state.start).format("YYYY-MM-DD hh:mm")}<br/>
+                        End of event:<br/>
+                        {moment(this.state.end).format("YYYY-MM-DD hh:mm")}<br/><br/>
+                        {this.state.description}<br/>
+                        Location: {this.state.location}
+                    </div>
+                );
+            }
+            if (this.state.mode != "view"){
+                var createButton = (this.state.mode == "create" ? (<button onClick={this.createEvent}>Create Event</button>) : <button onClick={this.createEvent}>Edit Event</button>)
+                var title = (this.state.mode == "create" ? (<h4>Create event</h4>) : (<h4>Edit event</h4>));
+                editText = (
+                    <div>
+                        {title}
+                        Start of event:<br/>
+                        <DateField
+                            defaultValue={this.state.start.getTime()}
+                            dateFormat="YYYY-MM-DD"
+                        />
+                        <input defaultValue={this.getTimeString(this.state.start)} onChange={(evt) => this.updateTime(evt,'start')}/><br/>
+                        End of event: <br/>
+                        <DateField
+                            defaultValue={this.state.end.getTime()}
+                            dateFormat="YYYY-MM-DD"
+                        />
+                        <input defaultValue={this.getTimeString(this.state.end)} onChange={(evt) => this.updateTime(evt,'end')}/><br/>
+                        Name:<br/>
+                        <input type="text" value={this.state.title} onChange={this.setName}/><br/>
+                        Location:<br/>
+                        <input value={this.state.location} onChange={this.setLocation}/><br/>
+                        Description:<br/>
+                        <input value={this.state.description} onChange={this.setDescription}/><br/>
+                        {createButton}
+                    </div>
+                );
+            }
         }
+        var dialogStyle = {
+          height: '600px',
+        };
         return (
-            <SkyLight ref="dialog">
+            <SkyLight dialogStyles={dialogStyle} hideOnOverlayClicked ref="dialog">
                 {slotText}
+                {editText}
             </SkyLight>
         );
     }
@@ -90,7 +118,7 @@ export class NewEventPopup extends React.Component{
 
 
     createEvent(){
-        var groupId = this.props.group ;
+        var groupId = this.props.group;
         var creatorId = Meteor.user().email;
         var eventObj = {
             title: this.state.title,
@@ -100,8 +128,16 @@ export class NewEventPopup extends React.Component{
             end: this.state.end,
             description: this.state.description,
         };
-        Meteor.call('groups.addEvent', groupId, eventObj);
+        if (this.state.mode == "edit"){
+            eventObj._id = this.state._id;
+            Meteor.call('groups.changeEvent', groupId, eventObj);
+        }
+        else if (this.state.mode == "create"){
+            Meteor.call('groups.addEvent', groupId, eventObj);
+        }
         this.refs.dialog.hide();
         this.state = {title:"", description:"", location: "", start:new Date(), end:new Date()};
     }
+
+
 }
