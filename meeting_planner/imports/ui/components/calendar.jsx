@@ -13,7 +13,10 @@ export class Calendar extends React.Component{
 
     render(){
         var eventsToShow = [];
-        if(this.props.name){
+        if(this.props.name == "profile"){
+            
+        }
+        else if(this.props.name){
             var eventIdsToShow = Groups.findOne({_id: this.props.name}).events;
             eventsToShow = Events.find({_id: {$in: eventIdsToShow}}).fetch();
         }

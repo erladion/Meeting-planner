@@ -1,5 +1,6 @@
 import { Mongo } from 'meteor/mongo';
 import SimpleSchema from 'simpl-schema'
+import
 
 export const Users = Meteor.users;
 
@@ -27,6 +28,29 @@ Meteor.methods({
             Users.schema.validate(obj);
             Users.insert(obj);
         }
+    },
+    'users.addEvent'(eventObj){
+        var eventObjID = Events.insert(eventObj);
+        Users.update(
+            {_id:Meteor.userId()},
+            {
+                $push: {events: eventObjID}
+            }
+        );
+    },
+    'users.changeEvent'(eventObj){
+        var eventID = eventObj._id;
+        var eventToBeChanged = Events.findOne({_id: eventID});
+        var eventCreator = eventToBeChanged.creator;
+
+        if(Meteor.user().email == eventCreator){
+            Events.update(
+                {_id:eventID},
+                eventObj
+            );
+            return {successful: true, message: "Successfully updated the event"};
+        }
+        return {successful: false, message: "Could not update the event"};
     },
     'users.updateInfo'(){
         var email = Meteor.user().services.google.email;

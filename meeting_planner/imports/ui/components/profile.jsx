@@ -1,6 +1,7 @@
 import React from 'react';
 import GoogleLogin from 'react-google-login';
 import { Tracker } from 'meteor/tracker'
+import { Calendar } from './calendar'
 
 export class Profile extends React.Component{
     constructor(props){
@@ -20,6 +21,9 @@ export class Profile extends React.Component{
                 <div className="w3-panel w3-border-bottom">
                     <img style={{float: "left"}} src={image} width="150px" className="w3-margin"/>
                     <h3 style={{float: "left"}} className="w3-margin">{username}</h3>
+                </div>
+                <div className="w3-panel w3-border-bottom">
+                    <Calendar name="profile"/>
                 </div>
                 <div className="w3-panel w3-border w3-leftbar w3-border-blue w3-margin-left">
                     <h4>Change username</h4>
