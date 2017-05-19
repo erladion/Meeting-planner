@@ -3,16 +3,34 @@ import { Meteor } from 'meteor/meteor';
 import { render } from 'react-dom';
 import { browserHistory } from 'react-router'
 import groupDB from '../../api/groups/Groups'
+//import btn from './button'
+
 
 export class LoginButton extends React.Component{
 
     render(){
         return(
-            <button onClick={ this.login }>Log in with Google</button>
+            <img ref="login" src="btn_normal.png" style={{cursor:'pointer'}}onMouseEnter={this.hover} onMouseLeave={this.unHover} onMouseDown={this.mouseDown} onClick={ this.login }/>
+            //<button onClick={ this.login }>Log in with Google</button>
+            //<button src="button.png" onClick={ this.login }></button>
         );
     }
 
+    // Functions that change what image to show when the user hovers over the button and clicks on it.
+    hover(evt){
+        evt.target.setAttribute('src', 'btn_focus.png');
+    }
+
+    unHover(evt){
+        evt.target.setAttribute('src', 'btn_normal.png');
+    }
+
+    mouseDown(evt){
+        evt.target.setAttribute('src', 'btn_pressed.png');
+    }
+
     login(){
+
         Meteor.loginWithGoogle({
             requestPermissions: ['profile', 'email']
         }, (err) => {
