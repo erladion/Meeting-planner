@@ -23,13 +23,15 @@ export class Calendar extends React.Component{
                 defaultView = 'week'
                 selectable
                 onSelectSlot={(slotInfo) => this.openDialog(slotInfo)}/>
-            />
-            <NewEventPopup ref="simpleDialog" slotInfo={this.state.slotInfo}/>
+            <NewEventPopup ref="simpleDialog" group={this.props.name}/>
         </div>);
     }
 
     openDialog(slotInfo){
         this.setState({'slotInfo': slotInfo});
+        console.log("hej");
+        this.refs.simpleDialog.setSlotInfo(slotInfo);
+        console.log("hej");
         this.refs.simpleDialog.refs.dialog.show()
     }
 }
