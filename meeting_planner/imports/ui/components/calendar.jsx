@@ -25,15 +25,26 @@ export class Calendar extends React.Component{
                 events = {eventsToShow}
                 defaultView = 'week'
                 selectable
-                onSelectSlot={(slotInfo) => this.openDialog(slotInfo)}/>
+                onSelectSlot={(slotInfo) => this.openDialog(slotInfo)}
+                onSelectEvent={(eventInfo) => this.openEvent(eventInfo)}/>
             <NewEventPopup ref="simpleDialog" group={this.props.name}/>
         </div>);
+    }
+
+    openEvent(eventInfo){
+        var group_owner = Groups.findOne({_id: this.props.name}).creator;
+        var mode = (eventInfo.creator == Meteor.user().email || group_owner == Meteor.user().email) ? "edit" : "view";
+        this.refs.simpleDialog.setEventInfo(eventInfo, mode);
+        if (mode == "view") this.refs.simpleDialog.refs.dialog.dialogStyles = {height: "300px"};
+        else this.refs.simpleDialog.refs.dialog.dialogStyles = {height: "600px"};
+        this.refs.simpleDialog.refs.dialog.show()
     }
 
     openDialog(slotInfo){
         this.setState({'slotInfo': slotInfo});
         console.log("hej");
         this.refs.simpleDialog.setSlotInfo(slotInfo);
+        this.refs.simpleDialog.refs.dialog.dialogStyles = {height: "300px"};
         console.log("hej");
         this.refs.simpleDialog.refs.dialog.show()
     }
