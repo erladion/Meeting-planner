@@ -1,14 +1,22 @@
 ## Things to do
 
 * Inloggningssida
-  * Logga in.
-  * Skapa ny användare.
-  * Om man blev redirectad från en annan del av sidan, gå tillbaka dit efter man har loggat in
+  * [x] Logga in med Google.
+  * [x] Om man blev redirectad från en annan del av sidan, gå tillbaka dit efter man har loggat in
+  * [ ] (Kanske) Logga in med facebook
+  * [ ] (Kanske) Skapa användare
 * Profilsida
-  * Se vilka grupper man är med i.
-  * Skapa ny grupp.
+  * [x] Byta användarnamn.
+  * [x] Skapa ny grupp.
+  * [x] Eget schema med personliga events.
+  * [ ] Lägga till/Ta bort/Ändra personliga events.
+  * [ ] Visa även events för alla grupper man är med i.
 * Tabbar för varje grupps schema.
-  * Lägg till nytt möte.
-  * Bjud in personer till gruppen.
-  * Ta bort möte.
-* Tab för sitt eget schema som innehåller alla grupper man är med i.
+  * [x] Lägg till nytt event.
+  * [x] Ändra event (för skaparen av eventet eller gruppen).
+  * [ ] Ta bort möte (för skaparen av eventet eller gruppen).
+  * [x] Lägg till personer till gruppen.
+  * [x] Ta bort personer i gruppen.
+  * [ ] Byta namn på gruppen.
+  * [ ] Byta beskrivning på gruppen.
+  * [ ] Visa tider då alla i gruppen är lediga.
