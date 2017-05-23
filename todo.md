@@ -14,7 +14,7 @@
 * Tabbar för varje grupps schema.
   * [x] Lägg till nytt event.
   * [x] Ändra event (för skaparen av eventet eller gruppen).
-  * [ ] Ta bort möte (för skaparen av eventet eller gruppen).
+  * [x] Ta bort event (för skaparen av eventet eller gruppen).
   * [x] Lägg till personer till gruppen.
   * [x] Ta bort personer i gruppen.
   * [x] Byta namn på gruppen.

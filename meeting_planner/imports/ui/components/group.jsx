@@ -148,9 +148,4 @@ export class Group extends React.Component{
                 this.setState({groupInfo: group});
         });
     }
-
-    removeEvent(eventId){
-        var groupId = this.state.groupInfo._id;
-        Meteor.call('removeEvent', groupId, eventId);
-    }
 }

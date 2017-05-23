@@ -13,6 +13,7 @@ export class NewEventPopup extends React.Component{
         this.updateTime = this.updateTime.bind(this);
         this.setSlotInfo = this.setSlotInfo.bind(this);
         this.createEvent = this.createEvent.bind(this);
+        this.removeEvent = this.removeEvent.bind(this);
         //console.dir(props);
         this.state = {title:"", description:"", location: "", start:new Date(), end:new Date(), mode:""};
     }
@@ -53,7 +54,8 @@ export class NewEventPopup extends React.Component{
                 );
             }
             if (this.state.mode != "view"){
-                var createButton = (this.state.mode == "create" ? (<button onClick={this.createEvent}>Create Event</button>) : <button onClick={this.createEvent}>Edit Event</button>)
+                var editEventDiv = (<div><button onClick={this.createEvent}>Edit Event</button><button onClick={this.removeEvent} style={{float: 'right'}}>Remove Event</button> </div>);
+                var createButton = (this.state.mode == "create" ? (<button onClick={this.createEvent}>Create Event</button>) : (editEventDiv));
                 var title = (this.state.mode == "create" ? (<h4>Create event</h4>) : (<h4>Edit event</h4>));
                 editText = (
                     <div>
@@ -82,12 +84,15 @@ export class NewEventPopup extends React.Component{
             }
         }
         var dialogStyle = {
-          height: '600px',
+            height: '600px',
+            marginTop: '-35%',
         };
         return (
             <SkyLight dialogStyles={dialogStyle} hideOnOverlayClicked ref="dialog">
-                {slotText}
-                {editText}
+                <div  style={{overflow: 'auto', height:'550px', marginTop: '5px'}}>
+                    {slotText}
+                    {editText}
+                </div>
             </SkyLight>
         );
     }
@@ -121,8 +126,8 @@ export class NewEventPopup extends React.Component{
         var groupId = this.props.group;
         if (groupId == "profile")
             groupId = "";
-        else if (eventObj.groupId)
-            groupId = groupId;
+        if (this.state.groupId)
+            groupId = this.state.groupId;
         var creatorId = Meteor.user().email;
         var eventObj = {
             title: this.state.title,
@@ -155,5 +160,18 @@ export class NewEventPopup extends React.Component{
         this.state = {title:"", description:"", location: "", start:new Date(), end:new Date()};
     }
 
-
+    removeEvent(){
+        var eventId = this.state._id;
+        var groupId = this.props.group;
+        if (this.state.groupId)
+            groupId = this.state.groupId;
+        if(groupId == "profile"){
+            Meter.call('users.removeEvent', eventId);
+        }
+        else{
+            Meteor.call('groups.removeEvent', groupId, eventId);
+        }
+        this.refs.dialog.hide();
+        this.state = {title:"", description:"", location: "", start:new Date(), end:new Date()};
+    }
 }
