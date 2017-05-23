@@ -15,6 +15,10 @@ export class Group extends React.Component{
         this.removeGroup = this.removeGroup.bind(this);
         this.removeMember = this.removeMember.bind(this);
         this.changeMemberToRemove = this.changeMemberToRemove.bind(this);
+        this.saveGroupName = this.saveGroupName.bind(this);
+        this.changeGroupName = this.changeGroupName.bind(this);
+        this.saveGroupDescription = this.saveGroupDescription.bind(this);
+        this.changeGroupDescription = this.changeGroupDescription.bind(this);
         this.leaveGroup = this.leaveGroup.bind(this);
         this.state = {groupInfo: {name:"",description:"", members:[], creator:""}, newMemberName: '', removedMemberName:''};
     }
@@ -44,6 +48,16 @@ export class Group extends React.Component{
                         <h4>Remove  member</h4>
                         <Select options={memberDropDown} value={this.state.removedMemberName} placeholder='Select a member to remove' onChange={this.changeMemberToRemove} />
                         <button className="w3-button w3-blue w3-margin-bottom" color=" #2196F3" width="200" height="30" onClick={this.removeMember}>Remove this member</button>
+                    </div>
+                    <div className="w3-panel w3-border w3-leftbar w3-border-blue w3-margin-left">
+                        <h4>Change group name</h4>
+                        <input className="w3-input w3-border" type="text" width="200" onChange={this.saveGroupName}></input>
+                        <button className="w3-button w3-blue w3-margin-bottom" color=" #2196F3" width="200" height="30" onClick={this.changeGroupName}>Change group name</button>
+                    </div>
+                    <div className="w3-panel w3-border w3-leftbar w3-border-blue w3-margin-left">
+                        <h4>Change group description</h4>
+                        <input className="w3-input w3-border" type="text" width="200" onChange={this.saveGroupDescription}></input>
+                        <button className="w3-button w3-blue w3-margin-bottom" color=" #2196F3" width="200" height="30" onClick={this.changeGroupDescription}>Change group description</button>
                     </div>
                     <div className="w3-panel w3-border w3-leftbar w3-border-blue w3-margin-left">
                         <h4>Remove group</h4>
@@ -81,6 +95,26 @@ export class Group extends React.Component{
         else {
             this.setState({removedMemberName:""});
         }
+    }
+
+    saveGroupName(evt){
+        var gInfo = this.state.groupInfo;
+        gInfo.name = evt.target.value;
+        this.setState({groupInfo: gInfo});
+    }
+
+    changeGroupName(){
+        Meteor.call("groups.changeName", this.state.groupInfo._id, this.state.groupInfo.name);
+    }
+
+    saveGroupDescription(evt){
+        var gInfo = this.state.groupInfo;
+        gInfo.description = evt.target.value;
+        this.setState({groupInfo: gInfo});
+    }
+
+    changeGroupDescription(){
+        Meteor.call("groups.changeDescription", this.state.groupInfo._id, this.state.groupInfo.description);
     }
 
     removeMember(){
