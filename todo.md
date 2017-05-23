@@ -9,8 +9,8 @@
   * [x] Byta användarnamn.
   * [x] Skapa ny grupp.
   * [x] Eget schema med personliga events.
-  * [ ] Lägga till/Ta bort/Ändra personliga events.
-  * [ ] Visa även events för alla grupper man är med i.
+  * [x] Lägga till/Ta bort/Ändra personliga events.
+  * [x] Visa även events för alla grupper man är med i.
 * Tabbar för varje grupps schema.
   * [x] Lägg till nytt event.
   * [x] Ändra event (för skaparen av eventet eller gruppen).
