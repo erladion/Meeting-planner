@@ -30,10 +30,7 @@ Meteor.methods({
         }
     },
     'users.addEvent'(eventObj){
-        console.dir(eventObj);
-        console.log("add event");
         var eventObjID = Events.insert(eventObj);
-        console.log("add event2");
         Users.update(
             {_id:Meteor.userId()},
             {
@@ -42,6 +39,7 @@ Meteor.methods({
         );
     },
     'users.changeEvent'(eventObj){
+        console.dir(eventObj);
         var eventID = eventObj._id;
         var eventToBeChanged = Events.findOne({_id: eventID});
         var eventCreator = eventToBeChanged.creator;

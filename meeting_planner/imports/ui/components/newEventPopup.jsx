@@ -121,6 +121,8 @@ export class NewEventPopup extends React.Component{
         var groupId = this.props.group;
         if (groupId == "profile")
             groupId = "";
+        else if (eventObj.groupId)
+            groupId = groupId;
         var creatorId = Meteor.user().email;
         var eventObj = {
             title: this.state.title,
