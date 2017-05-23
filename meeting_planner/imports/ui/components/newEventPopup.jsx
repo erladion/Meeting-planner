@@ -127,6 +127,7 @@ export class NewEventPopup extends React.Component{
             start: this.state.start,
             end: this.state.end,
             description: this.state.description,
+            groupId: groupId,
         };
         if (this.state.mode == "edit"){
             eventObj._id = this.state._id;

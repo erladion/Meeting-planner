@@ -19,6 +19,7 @@ Events.schema = new SimpleSchema({
     start: {type: Date},
     end: {type: Date},
     description :{type: String, optional: true},
+    groupId: {type:String},
 });
 
 Meteor.methods({
