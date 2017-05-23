@@ -17,6 +17,6 @@
   * [ ] Ta bort möte (för skaparen av eventet eller gruppen).
   * [x] Lägg till personer till gruppen.
   * [x] Ta bort personer i gruppen.
-  * [ ] Byta namn på gruppen.
-  * [ ] Byta beskrivning på gruppen.
+  * [x] Byta namn på gruppen.
+  * [x] Byta beskrivning på gruppen.
   * [ ] Visa tider då alla i gruppen är lediga.
