@@ -1,5 +1,6 @@
 import { Mongo } from 'meteor/mongo';
 import SimpleSchema from 'simpl-schema'
+import { Events } from '../groups/Groups'
 
 export const Users = Meteor.users;
 
@@ -29,7 +30,10 @@ Meteor.methods({
         }
     },
     'users.addEvent'(eventObj){
+        console.dir(eventObj);
+        console.log("add event");
         var eventObjID = Events.insert(eventObj);
+        console.log("add event2");
         Users.update(
             {_id:Meteor.userId()},
             {

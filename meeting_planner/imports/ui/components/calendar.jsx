@@ -14,7 +14,7 @@ export class Calendar extends React.Component{
     render(){
         var eventsToShow = [];
         if(this.props.name == "profile"){
-
+            eventsToShow = Events.find({}).fetch();
         }
         else if(this.props.name){
             var eventIdsToShow = Groups.findOne({_id: this.props.name}).events;
@@ -32,7 +32,10 @@ export class Calendar extends React.Component{
     }
 
     openEvent(eventInfo){
-        var group_owner = Groups.findOne({_id: this.props.name}).creator;
+        var group_owner = "";
+        if (eventInfo.groupId && eventInfo.groupId != ""){
+            group_owner = Groups.findOne({_id: eventInfo.groupId}).creator;
+        }
         var mode = (eventInfo.creator == Meteor.user().email || group_owner == Meteor.user().email) ? "edit" : "view";
         this.refs.simpleDialog.setEventInfo(eventInfo, mode);
         if (mode == "view") this.refs.simpleDialog.refs.dialog.dialogStyles = {height: "300px"};

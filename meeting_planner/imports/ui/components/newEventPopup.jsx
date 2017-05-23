@@ -119,6 +119,8 @@ export class NewEventPopup extends React.Component{
 
     createEvent(){
         var groupId = this.props.group;
+        if (groupId == "profile")
+            groupId = "";
         var creatorId = Meteor.user().email;
         var eventObj = {
             title: this.state.title,
@@ -129,12 +131,23 @@ export class NewEventPopup extends React.Component{
             description: this.state.description,
             groupId: groupId,
         };
+        console.dir(eventObj);
         if (this.state.mode == "edit"){
             eventObj._id = this.state._id;
-            Meteor.call('groups.changeEvent', groupId, eventObj);
+            if (groupId == ""){
+                Meteor.call('users.changeEvent', eventObj);
+            }
+            else{
+                Meteor.call('groups.changeEvent', groupId, eventObj);
+            }
         }
         else if (this.state.mode == "create"){
-            Meteor.call('groups.addEvent', groupId, eventObj);
+            if (groupId == ""){
+                Meteor.call('users.addEvent', eventObj);
+            }
+            else{
+                Meteor.call('groups.addEvent', groupId, eventObj);
+            }
         }
         this.refs.dialog.hide();
         this.state = {title:"", description:"", location: "", start:new Date(), end:new Date()};

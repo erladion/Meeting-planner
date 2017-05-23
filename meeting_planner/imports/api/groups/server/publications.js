@@ -26,7 +26,7 @@ Meteor.publish('users', function(){
 Meteor.publish('events', function(){
     this.autorun(function(computation){
         // Find the user with the given userId and return only the groups field from that user
-        var user = Meteor.users.findOne({_id: this.userId}, {fields: {groups: 1}});
+        var user = Meteor.users.findOne({_id: this.userId}, {fields: {groups: 1, events: 1}});
         var eventIds = [];
         if(user && user.groups){
             // Same as above, we return only events list from a given group
@@ -38,6 +38,9 @@ Meteor.publish('events', function(){
 
             var array_done = [].concat.apply([], new_arr);
             eventIds = array_done;
+        }
+        if (user && user.events){
+            eventIds = eventIds.concat(user.events);
         }
 
         // Return a cursor to the result from the query, use .fetch() on the return value to get an array.
