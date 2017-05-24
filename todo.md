@@ -19,7 +19,7 @@
   * [x] Ta bort personer i gruppen.
   * [x] Byta namn på gruppen.
   * [x] Byta beskrivning på gruppen.
-  * [ ] Visa tider då alla i gruppen är lediga.
+  * [x] Visa tider då alla i gruppen är lediga.
 * Övrigt
     * [ ] (Kanske) Exportera schema till iCal-format
     * [ ] (Kanske) Importa events från ett schema i iCal-format
