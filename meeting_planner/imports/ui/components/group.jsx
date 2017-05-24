@@ -38,7 +38,7 @@ export class Group extends React.Component{
                 memberDropDown.push({ value: group.members[i], label: group.members[i]});
             }
             creatorStuff = (
-                <div style={{width:'50%'}} className="w3.panel w3-border-top">
+                <div className="w3.panel w3-border-top">
                 <h3>Admin Page</h3>
                     <div className="w3-panel w3-border w3-leftbar w3-border-blue w3-margin-left">
                         <h4>Add member</h4>
@@ -68,8 +68,8 @@ export class Group extends React.Component{
             );
         }
         return(
-            <div style={{width:'100%'}} className="w3-border">
-                <div style={{width:'50%'}} className="w3-panel">
+            <div style={{width:'50%'}} className="w3-border">
+                <div className="w3-panel">
                     <h3 className="w3-margin">{group.name}</h3>
                     <h4>{group.description}</h4>
                     <h4>Members:</h4>
@@ -79,7 +79,7 @@ export class Group extends React.Component{
                         <button className="w3-button w3-blue w3-margin-bottom" color=" #2196F3" width="200" height="30" onClick={this.leaveGroup}>Leave this group</button>
                     </div>
                 </div>
-                <input type="checkbox" onChange={this.showBusyEvents}/>Show busy times
+                <label><input className="w3-check" type="checkbox" onChange={this.showBusyEvents}/>Show busy times</label>
                 <Calendar events={this.state.events} name={group._id}/>
                 { creatorStuff }
             </div>
