@@ -31,7 +31,7 @@ export class Calendar extends React.Component{
                 onSelectSlot={(slotInfo) => this.openDialog(slotInfo)}
                 onSelectEvent={(eventInfo) => this.openEvent(eventInfo)}
                 eventPropGetter={function(eve){
-                    var color = (eve.name == '' ? 'red' : 'blue');
+                    var color = (eve.title ? 'blue' : 'red');
                     return {style:{backgroundColor: color}};
                 }}/>
             <NewEventPopup ref="simpleDialog" group={this.props.name}/>

@@ -89,7 +89,7 @@ export class Group extends React.Component{
     showBusyEvents(evt){
         var self = this;
         if(evt.target.checked){
-            Meteor.call('events.getEventsForGroup', this.state.groupInfo._id, function(eve){
+            Meteor.call('events.getBusyTimesForGroup', this.state.groupInfo._id, function(err,eve){
                 self.setState({events: eve});
             });
         }
