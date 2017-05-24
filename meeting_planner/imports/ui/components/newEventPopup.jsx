@@ -85,7 +85,7 @@ export class NewEventPopup extends React.Component{
         }
         var dialogStyle = {
             height: '600px',
-            marginTop: '-35%',
+            marginTop: '-25%',
         };
         return (
             <SkyLight dialogStyles={dialogStyle} hideOnOverlayClicked ref="dialog">
