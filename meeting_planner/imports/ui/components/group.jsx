@@ -32,7 +32,7 @@ export class Group extends React.Component{
             memberList.push(<h6>{member}</h6>)
         }
         var creatorStuff = (<p></p>);
-        if (Meteor.user() && Meteor.user().services.google.email == group.creator){
+        if (Meteor.user() && Meteor.user().email == group.creator){
             var memberDropDown = [];
             for (var i = 1; i < group.members.length; i++) {
                 memberDropDown.push({ value: group.members[i], label: group.members[i]});
