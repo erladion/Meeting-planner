@@ -199,6 +199,34 @@ Meteor.methods({
             return {successful: false, message: "Successfully removed the group"};
         }
     },
+    'events.getEventsForGroup'(groupId){
+        var usersInGroup = Groups.find({_id: groupId}, {members: 1}).fetch();
+        var eventsInGroup = Groups.find({_id: groupId}, {events: 1}).fetch();
+
+        var groups = Groups.find({members:{$in: usersInGroup}},
+            {_id: 1}).fetch().map(function(gr){
+                return gr._id;
+            });
+
+        var groupsSet = new Set(groups);
+
+        groupsSet.delete(groupId);
+
+        groups = Array.from(groupsSet);
+        var events = Events.find({_id: {$in: groups}}).fetch();
+
+        var memberEvents = usersInGroup.map(function(us){
+            return us.events;
+        });
+
+        var memberEventsDone = [].concat.apply([], memberEvents);
+
+        events = events.concat(memberEventsDone);
+
+        var realEvents = Events.find({_id: {$in: events}}, {start: 1, end: 1}).fetch();
+
+        return realEvents;
+    },
 });
 
 function removeGroup(groupID){

@@ -20,7 +20,8 @@ export class Group extends React.Component{
         this.saveGroupDescription = this.saveGroupDescription.bind(this);
         this.changeGroupDescription = this.changeGroupDescription.bind(this);
         this.leaveGroup = this.leaveGroup.bind(this);
-        this.state = {groupInfo: {name:"",description:"", members:[], creator:""}, newMemberName: '', removedMemberName:''};
+        this.showBusyEvents = this.showBusyEvents.bind(this);
+        this.state = {groupInfo: {name:"",description:"", members:[], creator:""}, newMemberName: '', removedMemberName:'',events:[]};
     }
 
     render(){
@@ -78,10 +79,23 @@ export class Group extends React.Component{
                         <button className="w3-button w3-blue w3-margin-bottom" color=" #2196F3" width="200" height="30" onClick={this.leaveGroup}>Leave this group</button>
                     </div>
                 </div>
-                <Calendar name={group._id}/>
+                <input type="checkbox" onChange={this.showBusyEvents}/>Show busy times
+                <Calendar events={this.state.events} name={group._id}/>
                 { creatorStuff }
             </div>
         )
+    }
+
+    showBusyEvents(evt){
+        var self = this;
+        if(evt.target.checked){
+            Meteor.call('events.getEventsForGroup', this.state.groupInfo._id, function(eve){
+                self.setState({events: eve});
+            });
+        }
+        else{
+            this.setState({events: []});
+        }
     }
 
     saveMemberName(evt){

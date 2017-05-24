@@ -19,6 +19,9 @@ export class Calendar extends React.Component{
         else if(this.props.name){
             var eventIdsToShow = Groups.findOne({_id: this.props.name}).events;
             eventsToShow = Events.find({_id: {$in: eventIdsToShow}}).fetch();
+
+            eventsToShow = eventsToShow.concat(this.props.events);
+            console.dir(this.props.events);
         }
         return(<div style={{height:'600'}}>
             <BigCalendar
@@ -26,7 +29,11 @@ export class Calendar extends React.Component{
                 defaultView = 'week'
                 selectable
                 onSelectSlot={(slotInfo) => this.openDialog(slotInfo)}
-                onSelectEvent={(eventInfo) => this.openEvent(eventInfo)}/>
+                onSelectEvent={(eventInfo) => this.openEvent(eventInfo)}
+                eventPropGetter={function(eve){
+                    var color = (eve.name == '' ? 'red' : 'blue');
+                    return {style:{backgroundColor: color}};
+                }}/>
             <NewEventPopup ref="simpleDialog" group={this.props.name}/>
         </div>);
     }
