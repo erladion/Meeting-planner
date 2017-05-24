@@ -74,12 +74,12 @@ export class Group extends React.Component{
                     <h4>{group.description}</h4>
                     <h4>Members:</h4>
                     {memberList}
-                    <div className="w3-panel w3-border w3-leftbar w3-border-blue w3-margin-left">
+                    <div className="w3-panel w3-border w3-leftbar w3-border-blue">
                         <h4>Leave group</h4>
                         <button className="w3-button w3-blue w3-margin-bottom" color=" #2196F3" width="200" height="30" onClick={this.leaveGroup}>Leave this group</button>
                     </div>
                 </div>
-                <label><input className="w3-check" type="checkbox" onChange={this.showBusyEvents}/>Show busy times</label>
+                <label><input className="w3-check" type="checkbox" onChange={this.showBusyEvents}/>Show busy times</label><br/><br/>
                 <Calendar events={this.state.events} name={group._id}/>
                 { creatorStuff }
             </div>
