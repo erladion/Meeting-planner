@@ -15,7 +15,7 @@ Meteor.publish('groups', function() {
 
 Meteor.publish('users', function(){
     if(this.userId){
-        var users = Meteor.users.find({_id: this.userId}, { groups: 1, email: 1, picture: 1 });
+        var users = Meteor.users.find({_id: this.userId}, {fields: { groups: 1, email: 1, picture: 1 }});
         return users;
     }
     else{
@@ -31,7 +31,7 @@ Meteor.publish('events', function(){
         if(user && user.groups){
             // Same as above, we return only events list from a given group
             // In this case the groups is a list, so we will return all events from all the groups
-            eventIds = Groups.find({_id: {$in: user.groups}}, {events: 1}).fetch();
+            eventIds = Groups.find({_id: {$in: user.groups}}, {fields: {events: 1}}).fetch();
             var new_arr = eventIds.map(function(group){
                 return group.events;
             });
