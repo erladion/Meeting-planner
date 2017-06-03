@@ -53,6 +53,14 @@ Meteor.methods({
         }
         return {successful: false, message: "Could not update the event"};
     },
+    'users.removeEvent'(eventId){
+        var eventToBeRemoved = Events.findOne({_id: eventId});
+        var eventCreator = eventToBeRemoved.creator;
+
+        if(Meteor.user().email == eventCreator){
+            Events.remove({_id: eventId});
+        }
+    },
     'users.updateInfo'(){
         var email = Meteor.user().services.google.email;
         var picture = Meteor.user().services.google.picture;

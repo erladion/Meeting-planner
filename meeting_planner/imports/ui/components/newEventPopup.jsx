@@ -67,12 +67,14 @@ export class NewEventPopup extends React.Component{
                         <DateField
                             defaultValue={this.state.start.getTime()}
                             dateFormat="YYYY-MM-DD"
+                            onChange={(dateString, {dateMoment, timestamp}) => this.updateDate(dateMoment, 'start')}
                         />
                         <input defaultValue={this.getTimeString(this.state.start)} onChange={(evt) => this.updateTime(evt,'start')}/><br/>
                         End of event: <br/>
                         <DateField
                             defaultValue={this.state.end.getTime()}
                             dateFormat="YYYY-MM-DD"
+                            onChange={(dateString, {dateMoment, timestamp}) => this.updateDate(dateMoment, 'end')}
                         />
                         <input defaultValue={this.getTimeString(this.state.end)} onChange={(evt) => this.updateTime(evt,'end')}/><br/>
                         Name:<br/>
@@ -98,6 +100,11 @@ export class NewEventPopup extends React.Component{
                 </div>
             </SkyLight>
         );
+    }
+
+    updateDate(dateMoment, when){
+        this.state[when].setDate(dateMoment.date());
+        this.state[when].setMonth(dateMoment.month())
     }
 
     updateTime(evt,when){
@@ -148,6 +155,7 @@ export class NewEventPopup extends React.Component{
             eventObj._id = this.state._id;
             if (groupId == ""){
                 Meteor.call('users.changeEvent', eventObj);
+                Session.set("profile", Math.random());
             }
             else{
                 Meteor.call('groups.changeEvent', groupId, eventObj);
@@ -172,7 +180,7 @@ export class NewEventPopup extends React.Component{
         if (this.state.groupId)
             groupId = this.state.groupId;
         if(groupId == "profile"){
-            Meter.call('users.removeEvent', eventId);
+            Meteor.call('users.removeEvent', eventId);
         }
         else{
             Meteor.call('groups.removeEvent', groupId, eventId);
