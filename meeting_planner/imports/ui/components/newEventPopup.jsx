@@ -155,6 +155,7 @@ export class NewEventPopup extends React.Component{
             eventObj._id = this.state._id;
             if (groupId == ""){
                 Meteor.call('users.changeEvent', eventObj);
+                Session.set("profile", Math.random());
             }
             else{
                 Meteor.call('groups.changeEvent', groupId, eventObj);
