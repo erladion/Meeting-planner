@@ -163,7 +163,7 @@ export class NewEventPopup extends React.Component{
             }
         }
         this.refs.dialog.hide();
-        this.state = {title:"", description:"", location: "", start:new Date(), end:new Date()};
+        this.state = {title:"", description:"", location: "", start:new Date(), end:new Date(), groupId: ""};
     }
 
     removeEvent(){
@@ -178,6 +178,6 @@ export class NewEventPopup extends React.Component{
             Meteor.call('groups.removeEvent', groupId, eventId);
         }
         this.refs.dialog.hide();
-        this.state = {title:"", description:"", location: "", start:new Date(), end:new Date()};
+        this.state = {title:"", description:"", location: "", start:new Date(), end:new Date(), groupId: ""};
     }
 }
