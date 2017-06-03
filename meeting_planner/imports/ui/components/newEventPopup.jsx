@@ -121,7 +121,6 @@ export class NewEventPopup extends React.Component{
         this.setState({description:evt.target.value});
     }
 
-
     createEvent(){
         var groupId = this.props.group;
         if (groupId == "profile")
@@ -151,6 +150,7 @@ export class NewEventPopup extends React.Component{
         else if (this.state.mode == "create"){
             if (groupId == ""){
                 Meteor.call('users.addEvent', eventObj);
+                Session.set("profile", Math.random());
             }
             else{
                 Meteor.call('groups.addEvent', groupId, eventObj);

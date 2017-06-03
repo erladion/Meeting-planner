@@ -10,7 +10,9 @@ export class Profile extends React.Component{
         this.changeUsername = this.changeUsername.bind(this);
         this.saveGroupname = this.saveGroupname.bind(this);
         this.addGroup = this.addGroup.bind(this);
+        this.forceReRender = this.forceReRender.bind(this);
         this.state = {username: '', newGroupName: ''};
+        this.forceReRender();
     }
 
     render(){
@@ -44,6 +46,13 @@ export class Profile extends React.Component{
         Tracker.autorun(() => {
             if (Meteor.user())
             this.setState(this.state);
+        });
+    }
+
+    forceReRender(){
+        Tracker.autorun(() => {
+            var t = Session.get("profile");
+            this.setState(this.state)
         });
     }
 
