@@ -3,6 +3,7 @@ import  SkyLight from 'react-skylight'
 import { DateField } from 'react-date-picker'
 import 'react-date-picker/index.css'
 import moment from 'moment'
+import { Groups } from '../../api/groups/Groups'
 
 export class NewEventPopup extends React.Component{
     constructor(props){
@@ -15,7 +16,7 @@ export class NewEventPopup extends React.Component{
         this.createEvent = this.createEvent.bind(this);
         this.removeEvent = this.removeEvent.bind(this);
         //console.dir(props);
-        this.state = {title:"", description:"", location: "", start:new Date(), end:new Date(), mode:""};
+        this.state = {title:"", description:"", location: "", start:new Date(), end:new Date(), mode:"", groupId: ""};
     }
 
     setEventInfo(eventInfo, mode){
@@ -41,9 +42,11 @@ export class NewEventPopup extends React.Component{
         //console.dir(info);
         if (this.state.start){
             if (this.state.mode != "create"){
+                var groupName = (this.state.groupId != "" ? (<h5>{Groups.findOne({_id:this.state.groupId}).name}</h5>) : "");
                 slotText = (
                     <div>
                         <h3>{this.state.title}</h3>
+                        {groupName}
                         Start of event:<br/>
                         {moment(this.state.start).format("YYYY-MM-DD hh:mm")}<br/>
                         End of event:<br/>
@@ -125,7 +128,7 @@ export class NewEventPopup extends React.Component{
     createEvent(){
         // You cannot create events with no name
         if (this.state.title == "") return;
-        
+
         var groupId = this.props.group;
         if (groupId == "profile")
             groupId = "";
