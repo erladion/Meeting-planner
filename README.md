@@ -35,3 +35,6 @@ meteor add peerlibrary:reactive-publish
 meteor add momentjs:moment
 
 ```
+
+## Screencast
+https://youtu.be/orZ4WQanmpk
