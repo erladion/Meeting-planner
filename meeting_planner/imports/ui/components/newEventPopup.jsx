@@ -123,6 +123,9 @@ export class NewEventPopup extends React.Component{
 
 
     createEvent(){
+        // You cannot create events with no name
+        if (this.state.title == "") return;
+        
         var groupId = this.props.group;
         if (groupId == "profile")
             groupId = "";
