@@ -4,15 +4,15 @@
 ###### By Johan Jansson (johja118) and Filip Magnusson (filma035)
 
 ## Functional Specification
-A web application to schedule meetings for groups.  
-###### The application will have the following features:
+A web application to schedule meetings for groups.
+###### The application has the following features:
 * Create and join groups.
-* Ability to schedule a meeting for a given group of people and to have that meeting show up in their schedule.  
+* Ability to schedule a meeting for a given group of people and to have that meeting show up in their schedule.
 * A "meeting" will have a name, location, description etc.
-* Show free times in common to everyone in a given group.
-* Ability to mark a given time frame as "busy" without actually having a meeting at that time.
+* Show times where at least one person in the group is busy.
+* Ability to create personal events on the profile page (and that shows as "busy times" on the group page)
 
-###### Might do features:
+###### Possible future features:
 * Ability to import schedules from for example Google Calendar
 * Ability to export schedules
 
@@ -24,6 +24,10 @@ A web application to schedule meetings for groups.
 * [Big Calendar](https://github.com/intljusticemission/react-big-calendar) for displaying calendars and schedules
 * [W3.CSS](https://www.w3schools.com/w3css/default.asp) for CSS classes
 
+#### Some other plugins
+* react-select for dropdown menus
+* react-skylight for new event popup
+* react-date-picker for date-picking for events
 
 ## Installation
 ```
