@@ -17,12 +17,6 @@ import moment from 'moment';
 
 BigCalendar.momentLocalizer(moment);
 
-const About = () => (
-  <div>
-    <h2>About</h2>
-  </div>
-)
-
 Meteor.startup(() => {
     Meteor.subscribe('groups');
     Meteor.subscribe('users');
@@ -32,7 +26,6 @@ Meteor.startup(() => {
             <Router history={ browserHistory }>
                 <Route path="/" component={ WelcomePage } onEnter={loginRedirect}/>
                 <Route path="/" component={ TabView }>
-                    <Route path="/about" component={ About } onEnter={authenticate} />
                     <Route path="/profile" component={Profile} onEnter={authenticate} />
                     <Route path="/groups/:name" component={ Group } onEnter={authenticate} />
                 </Route>
